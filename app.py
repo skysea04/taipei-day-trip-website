@@ -1,7 +1,10 @@
 from flask import *
+from mysql_connect import cursor, db, select_attraction
+
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
+
 
 # Pages
 @app.route("/")
@@ -17,4 +20,63 @@ def booking():
 def thankyou():
 	return render_template("thankyou.html")
 
-app.run(port=3000)
+
+#Api
+@app.route('/api/attractions')
+def api_attractions():
+	if request.args.get('page'):
+		page = int(request.args.get('page'))
+		if request.args.get('keyword'):
+			keyword =request.args.get('keyword')
+			attraction_list = select_attraction(page, f"SELECT * FROM attraction WHERE name like '%{keyword}%' ")
+			if len(attraction_list)>0:
+				attractions = {
+					"nextPage": page+1,
+					"data": attraction_list
+				}
+				return jsonify(attractions)
+		else:
+			attraction_list = select_attraction(page, "SELECT * FROM attraction")
+			attractions = {
+				"nextPage": page+1,
+				"data": attraction_list
+			}
+			return jsonify(attractions)
+	return {
+		"error": True,
+		"message": "伺服器內部錯誤"
+	}, 500
+
+@app.route('/api/attraction/<int:attractionId>')
+def api_attraction(attractionId):
+	if attractionId:
+		cursor.execute(f"SELECT * FROM attraction where id={attractionId}")
+		attr = cursor.fetchone()
+		if attr:
+			attraction = {
+				"data": {
+					"id": attr[0],
+					"name": attr[1],
+					"category": attr[2],
+					"description": attr[3],
+					"address": attr[4],
+					"transport": attr[5],
+					"mrt": attr[6],
+					"latitude": attr[7],
+					"longitude": attr[8],
+					"images": json.loads(attr[9])
+				}
+			}
+			return attraction
+		return {
+			"error": True,
+			"message": "景點編號不正確"
+		}, 400
+	return {
+		"error": True,
+		"message": "伺服器內部錯誤"
+	}, 500
+
+
+if __name__ == '__main__':
+	app.run(port=3000)
