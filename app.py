@@ -30,15 +30,22 @@ def api_attractions():
 			keyword =request.args.get('keyword')
 			[attraction_list, last_page] = select_attraction(page, f"SELECT * FROM attraction WHERE name like '%{keyword}%' ")
 			if len(attraction_list)>0:
+				next_page = page + 1
+				if last_page:
+					next_page = None
+		
 				attractions = {
-					"nextPage": None if last_page else page+1,
+					"nextPage": next_page,
 					"data": attraction_list
 				}
 				return jsonify(attractions)
 		else:
 			[attraction_list, last_page] = select_attraction(page, "SELECT * FROM attraction")
+			next_page = page + 1
+			if last_page:
+				next_page = None
 			attractions = {
-				"nextPage": None if last_page else page+1,
+				"nextPage": next_page,
 				"data": attraction_list
 			}
 			return jsonify(attractions)
