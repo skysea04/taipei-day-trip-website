@@ -2,7 +2,12 @@ import mysql.connector
 from config import Config
 import json
 
-db = Config.db
+db = mysql.connector.connect(
+        host='localhost',
+        user=Config.mysql_user,
+        password=Config.mysql_password,
+        database='taipei_trip'
+    )
 
 cursor = db.cursor()
 
@@ -54,12 +59,14 @@ def select_attraction(page, sql):
 	attrs_len = len(attrs)	
 	attraction_list = []
 	first_index = page * 12
+	last_page = False
 	
 	if attrs_len - first_index <=12:
 		for i in range(first_index, attrs_len):
 			attraction_list.append(attrs[i])
+			last_page = True
 	else:
 		for i in range(first_index, first_index + 12):
 			attraction_list.append(attrs[i])
 	
-	return attraction_list
+	return [attraction_list, last_page]

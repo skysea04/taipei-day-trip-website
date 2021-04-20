@@ -36,9 +36,10 @@ def api_attractions():
 				}
 				return jsonify(attractions)
 		else:
-			attraction_list = select_attraction(page, "SELECT * FROM attraction")
+			[attraction_list, last_page] = select_attraction(page, "SELECT * FROM attraction")
+			
 			attractions = {
-				"nextPage": page+1,
+				"nextPage": None if last_page else page+1,
 				"data": attraction_list
 			}
 			return jsonify(attractions)
@@ -54,19 +55,9 @@ def api_attraction(attractionId):
 		attr = cursor.fetchone()
 		if attr:
 			attraction = {
-				"data": {
-					"id": attr[0],
-					"name": attr[1],
-					"category": attr[2],
-					"description": attr[3],
-					"address": attr[4],
-					"transport": attr[5],
-					"mrt": attr[6],
-					"latitude": attr[7],
-					"longitude": attr[8],
-					"images": json.loads(attr[9])
-				}
+				"data": dict(zip(cursor.column_names, attr))
 			}
+			attraction['data']['images'] = json.loads(attr[9])
 			return attraction
 		return {
 			"error": True,
