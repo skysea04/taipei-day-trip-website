@@ -46,27 +46,14 @@ def db_insert(table, **kargs):
     db.commit()
 
 
-def select_attraction(page, sql):
+def select_attraction(sql):
 	cursor.execute(sql)
 	result = cursor.fetchall()
-	# attrs代表所有的景點資料
-	attrs = []
+	# attrs為本次搜尋所有景點資料的陣列
+	attraction_list = []
 	for attr in result:
 		temp_attr = dict(zip(cursor.column_names, attr))
 		temp_attr['images'] = json.loads(attr[9])
-		attrs.append(temp_attr)
-		
-	attrs_len = len(attrs)	
-	attraction_list = []
-	first_index = page * 12
-	last_page = False
+		attraction_list.append(temp_attr)
 	
-	if attrs_len - first_index <=12:
-		for i in range(first_index, attrs_len):
-			attraction_list.append(attrs[i])
-			last_page = True
-	else:
-		for i in range(first_index, first_index + 12):
-			attraction_list.append(attrs[i])
-	
-	return [attraction_list, last_page]
+	return attraction_list

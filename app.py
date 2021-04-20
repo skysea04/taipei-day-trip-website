@@ -26,23 +26,25 @@ def thankyou():
 def api_attractions():
 	if request.args.get('page'):
 		page = int(request.args.get('page'))
+		first_index = page * 12
+		next_page = page + 1
 		if request.args.get('keyword'):
 			keyword =request.args.get('keyword')
-			[attraction_list, last_page] = select_attraction(page, f"SELECT * FROM attraction WHERE name like '%{keyword}%' ")
-			if len(attraction_list)>0:
-				next_page = page + 1
-				if last_page:
-					next_page = None
-		
-				attractions = {
-					"nextPage": next_page,
-					"data": attraction_list
-				}
-				return jsonify(attractions)
+			attraction_list = select_attraction(f"SELECT * FROM attraction WHERE name LIKE '%{keyword}%' LIMIT {first_index}, 12")
+			next_page_list = select_attraction(f"SELECT * FROM attraction WHERE name LIKE '%{keyword}%' LIMIT {first_index + 12}, 12")
+			#如果下一頁的陣列是空值，代表本次的搜尋是最後一頁，next_page返回null
+			if len(next_page_list) == 0:
+				next_page = None
+			attractions = {
+				"nextPage": next_page,
+				"data": attraction_list
+			}
+			return jsonify(attractions)
 		else:
-			[attraction_list, last_page] = select_attraction(page, "SELECT * FROM attraction")
-			next_page = page + 1
-			if last_page:
+			attraction_list = select_attraction(f"SELECT * FROM attraction LIMIT {first_index}, 12")
+			next_page_list = select_attraction(f"SELECT * FROM attraction LIMIT {first_index + 12}, 12")
+			#如果下一頁的陣列是空值，代表本次的搜尋是最後一頁，next_page返回null
+			if len(next_page_list) == 0:
 				next_page = None
 			attractions = {
 				"nextPage": next_page,
