@@ -1,12 +1,8 @@
 import mysql.connector
+from config import Config
 import json
 
-db = mysql.connector.connect(
-    host='localhost',
-    user='root',
-    password='root',
-    database='taipei_trip'
-)
+db = Config.db
 
 cursor = db.cursor()
 
@@ -51,18 +47,8 @@ def select_attraction(page, sql):
 	# attrs代表所有的景點資料
 	attrs = []
 	for attr in result:
-		temp_attr = {
-			"id": attr[0],
-			"name": attr[1],
-			"category": attr[2],
-			"description": attr[3],
-			"address": attr[4],
-			"transport": attr[5],
-			"mrt": attr[6],
-			"latitude": attr[7],
-			"longitude": attr[8],
-			"images": json.loads(attr[9])
-		}
+		temp_attr = dict(zip(cursor.column_names, attr))
+		temp_attr['images'] = json.loads(attr[9])
 		attrs.append(temp_attr)
 		
 	attrs_len = len(attrs)	
