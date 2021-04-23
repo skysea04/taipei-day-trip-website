@@ -1,10 +1,19 @@
 from flask import *
-from mysql_connect import cursor, db, select_attraction
+# from mysql_connect import cursor, db, select_attraction
+from api.attraction import appAttraction
+from api.booking import appBooking
+from api.order import appOrder
+from api.user import appUser
 
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
 
+#Api
+app.register_blueprint(appAttraction, url_prefix='/api')
+app.register_blueprint(appBooking, url_prefix='/api')
+app.register_blueprint(appOrder, url_prefix='/api')
+app.register_blueprint(appUser, url_prefix='/api')
 
 # Pages
 @app.route("/")
@@ -21,61 +30,5 @@ def thankyou():
 	return render_template("thankyou.html")
 
 
-#Api
-@app.route('/api/attractions')
-def api_attractions():
-	if request.args.get('page'):
-		page = int(request.args.get('page'))
-		first_index = page * 12
-		next_page = page + 1
-		if request.args.get('keyword'):
-			keyword =request.args.get('keyword')
-			attraction_list = select_attraction(f"SELECT * FROM attraction WHERE name LIKE '%{keyword}%' LIMIT {first_index}, 12")
-			next_page_list = select_attraction(f"SELECT * FROM attraction WHERE name LIKE '%{keyword}%' LIMIT {first_index + 12}, 12")
-			#如果下一頁的陣列是空值，代表本次的搜尋是最後一頁，next_page返回null
-			if len(next_page_list) == 0:
-				next_page = None
-			attractions = {
-				"nextPage": next_page,
-				"data": attraction_list
-			}
-			return jsonify(attractions)
-		else:
-			attraction_list = select_attraction(f"SELECT * FROM attraction LIMIT {first_index}, 12")
-			next_page_list = select_attraction(f"SELECT * FROM attraction LIMIT {first_index + 12}, 12")
-			#如果下一頁的陣列是空值，代表本次的搜尋是最後一頁，next_page返回null
-			if len(next_page_list) == 0:
-				next_page = None
-			attractions = {
-				"nextPage": next_page,
-				"data": attraction_list
-			}
-			return jsonify(attractions)
-	return {
-		"error": True,
-		"message": "伺服器內部錯誤"
-	}, 500
-
-@app.route('/api/attraction/<int:attractionId>')
-def api_attraction(attractionId):
-	if attractionId:
-		cursor.execute(f"SELECT * FROM attraction where id={attractionId}")
-		attr = cursor.fetchone()
-		if attr:
-			attraction = {
-				"data": dict(zip(cursor.column_names, attr))
-			}
-			attraction['data']['images'] = json.loads(attr[9])
-			return attraction
-		return {
-			"error": True,
-			"message": "景點編號不正確"
-		}, 400
-	return {
-		"error": True,
-		"message": "伺服器內部錯誤"
-	}, 500
-
-
 if __name__ == '__main__':
-	app.run(host='0.0.0.0',port=3000)
+	app.run(host='0.0.0.0',port=3000, debug=True)
