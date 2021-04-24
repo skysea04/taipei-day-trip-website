@@ -1,0 +1,60 @@
+html {
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    font-family: 'Noto Sans', sans-serif;
+    /* padding: 0; */
+}
+
+
+nav{
+    width: 100%;
+    background: white;
+}
+
+.nav{
+    width: 1200px;
+    height: 34px;
+    margin: 10px auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+nav .title{
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 34px;
+    text-decoration: none;
+    color: #448899;
+}
+nav .nav-link{
+    display: flex;
+}
+
+nav .nav-link a{
+    font-size: 16px;
+    line-height: 14px;
+    color: #666666;
+    margin: 10px;
+    text-decoration: none;
+}
+
+nav .nav-link a:hover{
+    color: #448899;
+}
+
+@media (max-width:1200px) {
+    nav .nav{
+        width: 100%;
+    }
+    nav .title{
+        margin-left: 10px;
+    }
+}
