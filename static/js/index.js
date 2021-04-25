@@ -114,27 +114,25 @@ function renderNextPage(){
 }
 
 // 延遲scroll
-function debounce(func, wait = 500, immediate = true) {
-    var timeout;
-    return function() {
-      var context = this, args = arguments;
-      var later = function() {
-        timeout = null;
-        if (!immediate) func.apply(context, args);
-      };
-      var callNow = immediate && !timeout;
+
+const debounce = (func, wait=50) => {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout)
+        func(...args)
+      }
       clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-      if (callNow) func.apply(context, args);
-    };
-  };
+      timeout = setTimeout(later, wait)
+    }
+}
 
 // 滾動時觸發renderNextPage
-window.addEventListener('scroll',()=>{
+window.addEventListener('scroll', debounce(()=>{
     if(page !== null){
-        debounce(renderNextPage())
+        renderNextPage()
     }
-})
+}))
 // 進行keword搜尋
 searchForm.addEventListener('submit', fetchSearching)
 
