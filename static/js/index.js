@@ -117,20 +117,34 @@ function renderNextPage(){
 
 // 延遲scroll
 
-function debounce(func, wait = 30, immediate = true) {
-    var timeout;
-    return function() {
-      var context = this, args = arguments
-      var later = function() {
-        timeout = null
-        if (!immediate) func.apply(context, args)
-      }
-      var callNow = immediate && !timeout
-      clearTimeout(timeout)
-      timeout = setTimeout(later, wait)
-      if (callNow) func.apply(context, args)
+// function debounce(func, wait = 30, immediate = true) {
+//     var timeout;
+//     return function() {
+//       var context = this, args = arguments
+//       var later = function() {
+//         timeout = null
+//         if (!immediate) func.apply(context, args)
+//       }
+//       var callNow = immediate && !timeout
+//       clearTimeout(timeout)
+//       timeout = setTimeout(later, wait)
+//       if (callNow) func.apply(context, args)
+//     };
+//   };
+
+const debounce = (func, wait) => {
+    let timeout;
+
+    return function executedFunction() {
+        const later = () => {
+        clearTimeout(timeout);
+        func();
+        };
+
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
     };
-  };
+};
   
 
 // 滾動時觸發renderNextPage
