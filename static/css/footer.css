@@ -1,12 +1,19 @@
 footer{
+    position: relative;
+    bottom: 0;
     width: 100%;
     padding-top: 45px;
     padding-bottom: 45px;
     background: #757575;
 }
 
+.fixed-bottom{
+    position: absolute;
+}
+
 footer>p{
-    width: 234px;
+    text-align: center;
+    width: 300px;
     font-weight: 700;
     margin: 0 auto;
     color: #ffffff;

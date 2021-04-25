@@ -70,7 +70,7 @@ main{
     padding: 15px;
     display: grid;
     grid-gap: 30px;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 main .attraction{
     border: 1px solid #E8E8E8;
@@ -80,8 +80,10 @@ main .attraction{
 
 .img-contain{
     position: relative;
+    display: block;
 }
 .img-contain::before{
+    opacity: 0;
     content: "";
     display: block;
     padding-top: 66%;
@@ -98,11 +100,18 @@ main .attraction{
     display: block;
     border-radius: 5px 5px 0 0;
 }
-.attraction>p{
+.attraction>.name{
+    display: block;
+    text-decoration: none;
     margin: 7px 10px;
     font-weight: 700;
     color: #757575;
+    overflow: hidden;
+    text-overflow : ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
 }
+
 
 .attraction-info{
     margin: 0 10px;
@@ -119,7 +128,7 @@ main .attraction{
 /* sign */
 .sign-bg{
     position: fixed;
-    z-index: 2;
+    z-index: 1;
     top: 0;
     left: 0;
     width: 100%;
@@ -137,6 +146,11 @@ main .attraction{
     margin: 80px auto;
     background: #ffffff;
     border-radius: 5px;
+    display: none;
+}
+
+.sign-container.show{
+    display: block;
 }
 
 .sign-container .top-bar{
@@ -221,7 +235,7 @@ main .attraction{
 
     main{
         width: calc(100% - 40px);
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
 }
