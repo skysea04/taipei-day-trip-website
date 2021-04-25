@@ -83,6 +83,12 @@ const fetchAttractions = async () => {
         main.append(attrContain)
     }
     page = data['nextPage']
+    if(main.innerHTML === ''){
+        const noResult = document.createElement('h3')
+        noResult.innerText = `找不到符合「${keyword}」的景點`
+        noResult.style.color = '#666666'
+        main.append(noResult)
+    }
 }
 
 //進行keyword搜尋
@@ -103,12 +109,6 @@ function fetchSearching(e){
                 footer.classList.remove('fixed-bottom')
             }
         })
-    if(main.innerHTML === ''){
-        const noResult = document.createElement('h3')
-        noResult.innerText = `找不到符合「${keyword}」的景點`
-        noResult.style.color = '#666666'
-        main.append(noResult)
-    }
 }
 
 //fetch下一頁
