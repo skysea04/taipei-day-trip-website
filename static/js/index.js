@@ -47,6 +47,8 @@ let keyword = ''
 
 //fetch景點函式
 const fetchAttractions = async () => {
+    console.log('hi')
+    if(page===null) return
     const result = await fetch(`/api/attractions?page=${page}&keyword=${keyword}`)
     const data = await result.json()
     const attractions = data["data"]
@@ -115,24 +117,24 @@ function renderNextPage(){
 
 // 延遲scroll
 
-const debounce = (func, wait=50) => {
-    let timeout;
-    return function executedFunction(...args) {
-      const later = () => {
-        clearTimeout(timeout)
-        func(...args)
+function debounce(func, wait = 30, immediate = true) {
+    var timeout;
+    return function() {
+      var context = this, args = arguments
+      var later = function() {
+        timeout = null
+        if (!immediate) func.apply(context, args)
       }
-      clearTimeout(timeout);
+      var callNow = immediate && !timeout
+      clearTimeout(timeout)
       timeout = setTimeout(later, wait)
-    }
-}
+      if (callNow) func.apply(context, args)
+    };
+  };
+  
 
 // 滾動時觸發renderNextPage
-window.addEventListener('scroll', debounce(()=>{
-    if(page !== null){
-        renderNextPage()
-    }
-}))
+window.addEventListener('scroll', debounce(renderNextPage))
 // 進行keword搜尋
 searchForm.addEventListener('submit', fetchSearching)
 
