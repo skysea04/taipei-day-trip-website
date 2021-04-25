@@ -132,7 +132,7 @@ function renderNextPage(){
 //     };
 //   };
 
-const debounce = (func, wait) => {
+const debounce = (func, wait=100) => {
     let timeout;
 
     return function executedFunction() {
