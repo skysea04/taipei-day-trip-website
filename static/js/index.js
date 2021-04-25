@@ -114,7 +114,7 @@ function renderNextPage(){
 }
 
 // 延遲scroll
-function debounce(func, wait = 15, immediate = true) {
+function debounce(func, wait = 30, immediate = true) {
     var timeout;
     return function() {
       var context = this, args = arguments;
