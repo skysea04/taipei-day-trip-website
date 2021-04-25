@@ -103,6 +103,12 @@ function fetchSearching(e){
                 footer.classList.remove('fixed-bottom')
             }
         })
+    if(main.innerHTML === ''){
+        const noResult = document.createElement('h3')
+        noResult.innerText = `找不到符合「${keyword}」的景點`
+        noResult.style.color = '#666666'
+        main.append(noResult)
+    }
 }
 
 //fetch下一頁
@@ -114,35 +120,17 @@ function renderNextPage(){
 }
 
 // 延遲scroll
-
-// function debounce(func, wait = 30, immediate = true) {
-//     var timeout;
-//     return function() {
-//       var context = this, args = arguments
-//       var later = function() {
-//         timeout = null
-//         if (!immediate) func.apply(context, args)
-//       }
-//       var callNow = immediate && !timeout
-//       clearTimeout(timeout)
-//       timeout = setTimeout(later, wait)
-//       if (callNow) func.apply(context, args)
-//     };
-//   };
-
 const debounce = (func, wait=100) => {
-    let timeout;
-
+    let timeout
     return function executedFunction() {
         const later = () => {
+            clearTimeout(timeout)
+            func()
+        }
         clearTimeout(timeout);
-        func();
-        };
-
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-};
+        timeout = setTimeout(later, wait)
+    }
+}
   
 
 // 滾動時觸發renderNextPage
