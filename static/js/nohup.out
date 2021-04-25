@@ -1,0 +1,40 @@
+ * Serving Flask app "app" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+ * Running on http://0.0.0.0:3000/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 288-500-846
+1.161.127.118 - - [25/Apr/2021 18:17:46] "[37mGET / HTTP/1.1[0m" 200 -
+1.161.127.118 - - [25/Apr/2021 18:17:46] "[37mGET /api/attractions?page=0&keyword= HTTP/1.1[0m" 200 -
+1.161.127.118 - - [25/Apr/2021 18:17:47] "[37mGET /api/attractions?page=1&keyword= HTTP/1.1[0m" 200 -
+1.161.127.118 - - [25/Apr/2021 18:17:49] "[37mGET /api/attractions?page=2&keyword= HTTP/1.1[0m" 200 -
+1.161.127.118 - - [25/Apr/2021 18:17:50] "[37mGET /api/attractions?page=3&keyword= HTTP/1.1[0m" 200 -
+1.161.127.118 - - [25/Apr/2021 18:17:51] "[37mGET /api/attractions?page=4&keyword= HTTP/1.1[0m" 200 -
+1.161.127.118 - - [25/Apr/2021 18:17:52] "[37mGET /api/attractions?page=5&keyword= HTTP/1.1[0m" 200 -
+1.161.127.118 - - [25/Apr/2021 18:17:52] "[37mGET /api/attractions?page=6&keyword= HTTP/1.1[0m" 200 -
+1.161.127.118 - - [25/Apr/2021 18:17:53] "[37mGET /api/attractions?page=7&keyword= HTTP/1.1[0m" 200 -
+1.161.127.118 - - [25/Apr/2021 18:17:54] "[37mGET /api/attractions?page=8&keyword= HTTP/1.1[0m" 200 -
+1.161.127.118 - - [25/Apr/2021 18:17:56] "[37mGET /api/attractions?page=9&keyword= HTTP/1.1[0m" 200 -
+111.240.189.102 - - [25/Apr/2021 18:19:29] "[37mGET / HTTP/1.1[0m" 200 -
+111.240.189.102 - - [25/Apr/2021 18:19:29] "[37mGET /static/css/nav.css HTTP/1.1[0m" 200 -
+111.240.189.102 - - [25/Apr/2021 18:19:29] "[37mGET /static/fontawesome-free-5.15.3-web/css/all.css HTTP/1.1[0m" 200 -
+111.240.189.102 - - [25/Apr/2021 18:19:29] "[37mGET /static/css/index.css HTTP/1.1[0m" 200 -
+111.240.189.102 - - [25/Apr/2021 18:19:29] "[37mGET /static/css/footer.css HTTP/1.1[0m" 200 -
+111.240.189.102 - - [25/Apr/2021 18:19:29] "[37mGET /static/js/index.js HTTP/1.1[0m" 200 -
+111.240.189.102 - - [25/Apr/2021 18:19:29] "[37mGET /static/welcome%201.png HTTP/1.1[0m" 200 -
+111.240.189.102 - - [25/Apr/2021 18:19:30] "[37mGET /static/fontawesome-free-5.15.3-web/webfonts/fa-solid-900.woff2 HTTP/1.1[0m" 200 -
+111.240.189.102 - - [25/Apr/2021 18:19:30] "[37mGET /api/attractions?page=0&keyword= HTTP/1.1[0m" 200 -
+111.240.189.102 - - [25/Apr/2021 18:19:34] "[37mGET /api/attractions?page=1&keyword= HTTP/1.1[0m" 200 -
+111.240.189.102 - - [25/Apr/2021 18:19:35] "[37mGET /api/attractions?page=2&keyword= HTTP/1.1[0m" 200 -
+111.240.189.102 - - [25/Apr/2021 18:19:36] "[37mGET /api/attractions?page=3&keyword= HTTP/1.1[0m" 200 -
+111.240.189.102 - - [25/Apr/2021 18:19:39] "[37mGET / HTTP/1.1[0m" 200 -
+111.240.189.102 - - [25/Apr/2021 18:19:39] "[37mGET /api/attractions?page=0&keyword= HTTP/1.1[0m" 200 -
+111.240.189.102 - - [25/Apr/2021 18:19:39] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+111.240.189.102 - - [25/Apr/2021 18:19:43] "[37mGET / HTTP/1.1[0m" 200 -
+111.240.189.102 - - [25/Apr/2021 18:19:43] "[37mGET /api/attractions?page=0&keyword= HTTP/1.1[0m" 200 -
+111.240.189.102 - - [25/Apr/2021 18:19:52] "[37mGET /api/attractions?page=0&keyword=臺北 HTTP/1.1[0m" 200 -
+111.240.189.102 - - [25/Apr/2021 18:19:54] "[37mGET /api/attractions?page=1&keyword=臺北 HTTP/1.1[0m" 200 -
+111.240.189.102 - - [25/Apr/2021 18:19:55] "[37mGET /api/attractions?page=2&keyword=臺北 HTTP/1.1[0m" 200 -

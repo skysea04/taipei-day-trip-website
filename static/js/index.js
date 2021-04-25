@@ -47,7 +47,6 @@ let keyword = ''
 
 //fetch景點函式
 const fetchAttractions = async () => {
-    console.log('hi')
     if(page===null) return
     const result = await fetch(`/api/attractions?page=${page}&keyword=${keyword}`)
     const data = await result.json()
@@ -90,7 +89,6 @@ const fetchAttractions = async () => {
 function fetchSearching(e){
     e.preventDefault()
     keyword = this.querySelector('input').value
-    console.log(keyword)
     page = 0
     //清除main，重新fetch符合的資料
     main.innerHTML = ''
