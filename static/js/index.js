@@ -48,7 +48,13 @@ let keyword = ''
 //fetch景點函式
 const fetchAttractions = async () => {
     if(page===null) return
-    const result = await fetch(`/api/attractions?page=${page}&keyword=${keyword}`)
+    let apiUrl = ''
+    if(keyword === ''){
+        apiUrl = `/api/attractions?page=${page}`
+    }else{
+        apiUrl = `/api/attractions?page=${page}&keyword=${keyword}`
+    }
+    const result = await fetch(apiUrl)
     const data = await result.json()
     const attractions = data["data"]
     for(let attr of attractions){
@@ -113,8 +119,11 @@ function fetchSearching(e){
 
 //fetch下一頁
 function renderNextPage(){
-    const pageBottom = this.pageYOffset + this.innerHeight
-    if(pageBottom > footer.offsetTop){
+    // 可以之後再用getBoundingClientRect()做看看
+    // const mainObject = main.getBoundingClientRect()
+    // console.log(mainObject)
+    const screenBottom = this.pageYOffset + this.innerHeight
+    if(screenBottom > footer.offsetTop){
         fetchAttractions()
     }
 }
