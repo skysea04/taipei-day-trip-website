@@ -10,3 +10,10 @@ CREATE TABLE attraction(
     longitude DOUBLE NOT NULL,
     images JSON
 );
+
+CREATE TABLE user(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL
+);

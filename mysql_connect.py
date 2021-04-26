@@ -8,6 +8,7 @@ db = mysql.connector.connect(
         password = Config.mysql_password,
         database='taipei_trip'
     )
+db.reconnect(attempts=1, delay=0)
 
 cursor = db.cursor()
 

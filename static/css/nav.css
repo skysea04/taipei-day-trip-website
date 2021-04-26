@@ -1,0 +1,160 @@
+html {
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    width: 100%;
+    font-family: 'Noto Sans', sans-serif;
+}
+
+.white-space{
+    height: 54px;
+    width: 100%;
+}
+
+nav{
+    position: fixed;
+    z-index: 2;
+    width: 100%;
+    background: white;
+    top: 0;
+    left: 0;
+    border-bottom:1px solid #e8e8e8;
+}
+
+.nav{    
+    width: 1200px;
+    height: 34px;
+    margin: 10px auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+nav .title{
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 34px;
+    text-decoration: none;
+    color: #448899;
+}
+nav .nav-link{
+    display: flex;
+}
+
+nav .nav-link *{
+    font-size: 16px;
+    line-height: 14px;
+    color: #666666;
+    margin: 10px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+nav .nav-link *:hover, nav .nav-link *.active{
+    color: #448899;
+}
+
+
+/* 登入、註冊欄位 */
+.sign-bg{
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.25);
+    display: none;
+}
+
+.pop-up{
+    display: block;
+}
+
+.sign-container{
+    width: 340px;
+    margin: 80px auto;
+    background: #ffffff;
+    border-radius: 5px;
+    display: none;
+}
+
+.sign-container.show{
+    display: block;
+}
+
+.sign-container .top-bar{
+    width: 100%;
+    height: 10px;
+    background: linear-gradient(270deg, #337788 0%, #66AABB 100%);
+    border-radius: 5px 5px 0 0 ;
+}
+
+.sign-container .main-content{
+    padding: 15px;
+    text-align: center;
+}
+.sign-container .form-title{
+    position: relative;
+    color: #666666;
+    margin-bottom: 15px;
+}
+.form-title .close-btn{
+    position: absolute;
+    line-height: 16px;
+    width: 16px;
+    top: 2px;
+    right: 2px;
+    cursor: pointer;
+}
+
+.form-content>*{
+    width: 100%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.form-content>input{
+    border: 1px solid #cccccc;
+    padding: 15px;
+}
+
+.form-content>input::placeholder{
+    color: #666666;
+}
+
+.form-content>button{
+    color: #ffffff;
+    font-size: 19px;
+    background: #448899;
+    border: 0;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.sign-container .main-content p{
+    color: #666666;
+    cursor: pointer;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.sign-container .main-content p:hover{
+    text-decoration: underline;
+}
+
+
+@media (max-width:1200px) {
+    nav .nav{
+        width: 100%;
+    }
+    nav .title{
+        margin-left: 10px;
+    }
+}
