@@ -9,7 +9,6 @@ let isFetching = false
 
 //fetch景點函式
 const fetchAttractions = async () => {
-    isFetching = true
     if(page===null) return
     let apiUrl = ''
     if(keyword === ''){
@@ -96,15 +95,16 @@ function renderNextPage(){
     // const mainObject = main.getBoundingClientRect()
     // console.log(mainObject)
     // 如果在fetching 直接return
-    // if(isFetching) return 
+    if(isFetching) return 
     const screenBottom = this.pageYOffset + this.innerHeight
     if(screenBottom > footer.offsetTop){
-        fetchAttractions()
+        isFetching = true
+	fetchAttractions()
     }
 }
 
 // 延遲scroll
-const debounce = (func, wait=0) => {
+const debounce = (func, wait=20) => {
     let timeout
     return function executedFunction() {
         const later = () => {
