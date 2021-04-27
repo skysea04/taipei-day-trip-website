@@ -95,11 +95,14 @@ function renderNextPage(){
     // const mainObject = main.getBoundingClientRect()
     // console.log(mainObject)
     // 如果在fetching 直接return
-    if(isFetching) return 
+    if(isFetching){
+        console.log('isFetching')
+        return
+    }
     const screenBottom = this.pageYOffset + this.innerHeight
     if(screenBottom > footer.offsetTop){
         isFetching = true
-	fetchAttractions()
+	    fetchAttractions()
     }
 }
 
