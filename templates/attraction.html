@@ -21,24 +21,88 @@
             </div>
         </div>
     </nav>
+
+    <section class="sign-bg">
+        <div class="sign-container signin show">
+            <div class="top-bar"></div>
+            <div class="main-content">
+                <form action="">
+                    <h3 class="form-title">登入會員帳號
+                        <div class="close-btn">✕</div>
+                    </h3>
+                    <div class="form-content">
+                        <input type="email" placeholder="輸入電子信箱" name="email" required>
+                        <input type="password" placeholder="輸入密碼" name="password" required>
+                        <button type="submit">登入帳戶</button>
+                    </div>
+                    <p class="to-signup">還沒有帳戶？點此註冊</p>
+                </form>
+            </div>
+        </div>
+        
+        <div class="sign-container signup">
+            <div class="top-bar"></div>
+            <div class="main-content">
+                <form action="">
+                    <h3 class="form-title">註冊會員帳號
+                        <div class="close-btn">✕</div>
+                    </h3>
+                    <div class="form-content">
+                        <input type="text" placeholder="輸入姓名" name="name" required>
+                        <input type="email" placeholder="輸入電子信箱" name="email" required>
+                        <input type="password" placeholder="輸入密碼" name="password" required>
+                        <button type="submit">登入帳戶</button>
+                    </div>
+                    <p class="to-signin">還沒有帳戶？點此註冊</p>
+                </form>
+            </div>
+        </div>
+    </section>
+
     <main>
-        <div class="book-info">
+        <div class="booking-info">
             <div class="imgs-contain">
                 
             </div>
             <div class="profile">
                 <h3>平安鐘</h3>
-                
+                <p>公共藝術 at 忠孝復興</p>
+                <form class="booking-form" action="">
+                    <p><b>訂購導覽行程</b></p>
+                    <p>以此景點為中心的一日行程，帶您探索城市角落故事</p>
+                    <div class="date">
+                        <label for="date">選擇日期：</label>
+                        <input type="date">
+                    </div>
+                    <div class="time">
+                        <label>選擇時間：</label>
+
+                        <input type="radio" name="time" id="morning">
+                        <label for="morning"><span></span>上半天</label>
+                        
+                        <input type="radio" name="time" id="afternoon">
+                        <label for="afternoon"><span></span>下半天</label>
+                        
+                    </div>
+                    <div class="fee">
+                        <label>導覽費用：</label>
+                        <span>新台幣2000元</span>
+                    </div>
+                    <button type="submit">開始預定行程</button>
+                </form>
             </div>
         </div>
         <div class="seperator"></div>
-        <div class="info"></div>
+        <div class="info">
+            <p>平安鐘祈求大家的平安，這是為了紀念921地震週年的設計，在喧鬧的廣場上每個小時鳴鐘，保佑平安，祈禱臺灣不會再發生這樣的天災。雙手合十加上108個黃色的琉璃乳丁，隨著緩緩流下的水，在底下的一個小噴泉噴出。雙手合十的意義，一個是祈福，一個是包容，教我們要包容這樣的改變，撫平這樣的傷口。下面的水緩緩流出，代表著人的生命力是不斷地延續下去。緩緩地鐘聲，卻帶來心中的寧靜。 這個平安鐘是由建築師姚仁喜與琉璃創作家王俠軍共同設計，長6公尺、寬5公尺，以鑄銅製成，由法鼓山文教基金會全額出資。平安鐘點綴都市景觀，不時提醒大家，面對刻骨銘心的災難痛苦，更應該有謙卑的一顆心。</p>
+            
+        </div>
     </main>
 
     <footer>
         <p>COPYRIGHT © 2021 台北一日遊</p>
     </footer>
-    
+
 <script src="../static/js/sign.js"></script>
 </body>
 </html>

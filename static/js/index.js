@@ -4,9 +4,12 @@ const main = document.querySelector('main')
 const footer = document.querySelector('footer')
 let page = 0
 let keyword = ''
+// 判斷是不是在fetch api
+let isFetching = false
 
 //fetch景點函式
 const fetchAttractions = async () => {
+    isFetching = true
     if(page===null) return
     let apiUrl = ''
     if(keyword === ''){
@@ -16,38 +19,41 @@ const fetchAttractions = async () => {
     }
     const result = await fetch(apiUrl)
     const data = await result.json()
-    const attractions = data["data"]
-    for(let attr of attractions){
-        // 包全部
-        const attrContain = document.createElement('div')
-        attrContain.classList.add('attraction')
-        // 包img(還沒放網址)
-        const imgContain = document.createElement('a')
-        imgContain.classList.add('img-contain')
-        // img本人
-        const img = document.createElement('img')
-        img.src = attr['images'][0]
-        // 景點名稱（還沒放網址）
-        const name = document.createElement('a')
-        name.classList.add('name')
-        name.title = attr['name']
-        name.innerText = attr['name']
-        // 包景點資訊
-        const info = document.createElement('div')
-        info.classList.add('attraction-info')
-        // 捷運資訊
-        const mrt = document.createElement('p')
-        mrt.innerText = attr['mrt']
-        // 景點類別
-        const category = document.createElement('p')
-        category.innerText = attr['category']
-
-        //合併元素
-        info.append(mrt, category)
-        imgContain.append(img)
-        attrContain.append(imgContain, name, info)
-        main.append(attrContain)
+    if(data["data"]){
+        const attractions = data["data"]
+        for(let attr of attractions){
+            // 包全部
+            const attrContain = document.createElement('div')
+            attrContain.classList.add('attraction')
+            // 包img(還沒放網址)
+            const imgContain = document.createElement('a')
+            imgContain.classList.add('img-contain')
+            // img本人
+            const img = document.createElement('img')
+            img.src = attr['images'][0]
+            // 景點名稱（還沒放網址）
+            const name = document.createElement('a')
+            name.classList.add('name')
+            name.title = attr['name']
+            name.innerText = attr['name']
+            // 包景點資訊
+            const info = document.createElement('div')
+            info.classList.add('attraction-info')
+            // 捷運資訊
+            const mrt = document.createElement('p')
+            mrt.innerText = attr['mrt']
+            // 景點類別
+            const category = document.createElement('p')
+            category.innerText = attr['category']
+            
+            //合併元素
+            info.append(mrt, category)
+            imgContain.append(img)
+            attrContain.append(imgContain, name, info)
+            main.append(attrContain)
+        }
     }
+
     page = data['nextPage']
     if(main.innerHTML === ''){
         const noResult = document.createElement('h3')
@@ -55,6 +61,7 @@ const fetchAttractions = async () => {
         noResult.style.color = '#666666'
         main.append(noResult)
     }
+    isFetching = false
 }
 
 //進行keyword搜尋
@@ -65,7 +72,13 @@ function fetchSearching(e){
     //清除main，重新fetch符合的資料
     main.innerHTML = ''
     fetchAttractions()
-        .then(() => {
+        .catch(()=>{
+            const errorMessage = document.createElement('h3')
+            errorMessage.innerText = data['message']
+            errorMessage.style.color = '#666666'
+            main.append(errorMessage)
+        })
+        .finally(() => {
             let mainBottom = main.offsetHeight + main.offsetTop
             let footerTop = window.innerHeight - footer.offsetHeight
             // 當main高度不夠的時候，讓footer固定於底部
@@ -82,6 +95,8 @@ function renderNextPage(){
     // 可以之後再用getBoundingClientRect()做看看
     // const mainObject = main.getBoundingClientRect()
     // console.log(mainObject)
+    // 如果在fetching 直接return
+    // if(isFetching) return 
     const screenBottom = this.pageYOffset + this.innerHeight
     if(screenBottom > footer.offsetTop){
         fetchAttractions()
@@ -89,7 +104,7 @@ function renderNextPage(){
 }
 
 // 延遲scroll
-const debounce = (func, wait=100) => {
+const debounce = (func, wait=0) => {
     let timeout
     return function executedFunction() {
         const later = () => {

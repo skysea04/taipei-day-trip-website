@@ -1,5 +1,12 @@
-h3, p{
+h3, p, label, span{
     color: #666666;
+}
+
+.seperator{
+    width: 100%;
+    height: 1px;
+    margin: 40px 0;
+    background-color: #e8e8e8;
 }
 
 main{
@@ -7,10 +14,10 @@ main{
     width: 1200px;
 }
 
-.book-info{
+.booking-info{
     width: 100%;
     height: 400px;
-    border: 1px solid sienna;
+    /* border: 1px solid sienna; */
     padding:0 15px;
     display: grid;
     grid-gap: 30px;
@@ -25,12 +32,71 @@ main{
 
 
 
-.book-info .profile{
+
+.booking-info .profile{
     height: 400px;
     width: 600px;
-    background: skyblue;
 }
-.profile h3{
+.profile>h3{
     margin-bottom: 15px;
+}
+
+.profile>p{
+    margin-bottom: 20px;
+}
+
+
+
+
+.booking-form{
+    width: 100%;
+    padding: 15px 20px;
+    background: #e8e8e8;
+}
+.booking-form>*{
+    margin-bottom: 15px;
+}
+.booking-form div label:first-child{
+    font-weight: bold;
+}
+
+
+.booking-form .date input{
+    padding: 5px 10px;
+}
+
+.booking-form .time input[type="radio"] {
+    display:none;
+}
+.booking-form .time input[type="radio"] + label span {
+    display:inline-block;
+    width:22px;
+    height:22px;
+    margin:-2px 10px 0 0;
+    vertical-align:middle;
+    background:#ffffff left top no-repeat;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    cursor:pointer;
+}
+.booking-form .time input[type="radio"]:checked + label span {
+    background:#448899 -22px top no-repeat;
+}
+
+.booking-form button{
+    margin-top: 25px;
+    margin-bottom: 25px;
+    padding: 10px 20px;
+    color: #ffffff;
+    background: #448899;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+.info{
+    margin: 40px 0;
+    
 }
 
