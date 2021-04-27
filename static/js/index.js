@@ -4,8 +4,7 @@ const main = document.querySelector('main')
 const footer = document.querySelector('footer')
 let page = 0
 let keyword = ''
-// 判斷是不是在fetch api
-let isFetching = false
+
 
 //fetch景點函式
 const fetchAttractions = async () => {
@@ -60,7 +59,6 @@ const fetchAttractions = async () => {
         noResult.style.color = '#666666'
         main.append(noResult)
     }
-    isFetching = false
 }
 
 //進行keyword搜尋
@@ -95,19 +93,14 @@ function renderNextPage(){
     // const mainObject = main.getBoundingClientRect()
     // console.log(mainObject)
     // 如果在fetching 直接return
-    if(isFetching){
-        console.log('isFetching')
-        return
-    }
     const screenBottom = this.pageYOffset + this.innerHeight
     if(screenBottom > footer.offsetTop){
-        isFetching = true
 	    fetchAttractions()
     }
 }
 
 // 延遲scroll
-const debounce = (func, wait=20) => {
+const debounce = (func, wait=100) => {
     let timeout
     return function executedFunction() {
         const later = () => {
