@@ -94,8 +94,8 @@ function renderNextPage(){
     // 可以之後再用getBoundingClientRect()做看看
     // const mainObject = main.getBoundingClientRect()
     // console.log(mainObject)
+    //如果在fetching取消這次的fetch 可以避免ec2延遲導致fetch相同api的狀況
     if(isFetching){
-        console.log('Fetching')
         return
     }
     const screenBottom = this.pageYOffset + this.innerHeight
@@ -105,7 +105,7 @@ function renderNextPage(){
 }
 
 // 延遲scroll
-const debounce = (func, wait=0) => {
+const debounce = (func, wait=50) => {
     let timeout
     return function executedFunction() {
         const later = () => {
