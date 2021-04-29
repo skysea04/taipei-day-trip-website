@@ -13,7 +13,8 @@ const transportContainer = info.querySelector('.transport')
 
 
 
-const attractionID = document.URL.slice(-1);
+const attractionID = document.URL.split('/').slice(-1);
+console.log(attractionID)
 const apiUrl = '/api/attraction/' + attractionID
 const fetchAttraction = async () => {
     const result = await fetch(apiUrl)
