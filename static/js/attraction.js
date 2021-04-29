@@ -19,9 +19,7 @@ const fetchAttraction = async () => {
     const result = await fetch(apiUrl)
     const data = await result.json()
     const attraction = data.data
-
-    console.log(attraction)
-
+    
     //寫入images 和 indexes
     const imgUrls = attraction.images
     imgUrls.forEach(imgUrl => {

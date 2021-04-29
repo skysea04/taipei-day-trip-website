@@ -19,31 +19,33 @@ const fetchAttractions = async () => {
     const result = await fetch(apiUrl)
     const data = await result.json()
     if(data["data"]){
-        const attractions = data["data"]
+        const attractions = data.data
         for(let attr of attractions){
             // 包全部
             const attrContain = document.createElement('div')
             attrContain.classList.add('attraction')
             // 包img(還沒放網址)
             const imgContain = document.createElement('a')
+            imgContain.href = `/attraction/${attr.id}`
             imgContain.classList.add('img-contain')
             // img本人
             const img = document.createElement('img')
-            img.src = attr['images'][0]
+            img.src = attr.images[0]
             // 景點名稱（還沒放網址）
             const name = document.createElement('a')
             name.classList.add('name')
-            name.title = attr['name']
-            name.innerText = attr['name']
+            name.title = attr.name
+            name.href = `/attraction/${attr.id}`
+            name.innerText = attr.name
             // 包景點資訊
             const info = document.createElement('div')
             info.classList.add('attraction-info')
             // 捷運資訊
             const mrt = document.createElement('p')
-            mrt.innerText = attr['mrt']
+            mrt.innerText = attr.mrt
             // 景點類別
             const category = document.createElement('p')
-            category.innerText = attr['category']
+            category.innerText = attr.category
             
             //合併元素
             info.append(mrt, category)
@@ -77,35 +79,25 @@ function fetchSearching(e){
             errorMessage.style.color = '#666666'
             main.append(errorMessage)
         })
-        .finally(() => {
-            let mainBottom = main.offsetHeight + main.offsetTop
-            let footerTop = window.innerHeight - footer.offsetHeight
-            // 當main高度不夠的時候，讓footer固定於底部
-            if(mainBottom < footerTop){
-                footer.classList.add('fixed-bottom')
-            }else{
-                footer.classList.remove('fixed-bottom')
-            }
-        })
 }
 
 //fetch下一頁
 function renderNextPage(){
     // 可以之後再用getBoundingClientRect()做看看
     // const mainObject = main.getBoundingClientRect()
-    // console.log(mainObject)
+    
     //如果在fetching取消這次的fetch 可以避免ec2延遲導致fetch相同api的狀況
     if(isFetching){
         return
     }
     const screenBottom = this.pageYOffset + this.innerHeight
-    if(screenBottom > footer.offsetTop){
+    if(screenBottom > footer.offsetTop-300){
 	    fetchAttractions()
     }
 }
 
 // 延遲scroll
-const debounce = (func, wait=50) => {
+const debounce = (func, wait=100) => {
     let timeout
     return function executedFunction() {
         const later = () => {
@@ -116,10 +108,25 @@ const debounce = (func, wait=50) => {
         timeout = setTimeout(later, wait)
     }
 }
-  
 
-// 滾動時觸發renderNextPage
+// 滾動時觸發renderNextPage 自創bounce版本
+// let iswaiting = false
+// window.addEventListener('scroll', ()=>{
+//     console.log('condition')
+//     if(!iswaiting){
+//         renderNextPage()
+//         // console.log('notwaiting')
+//         iswaiting = true
+//         let timeout = window.setTimeout(()=>{
+//             iswaiting = false  
+//             // console.log('finishWaiting')       
+//         }, 1000)
+//     }
+// })
+
+// 滾動時觸發renderNextPage 
 window.addEventListener('scroll', debounce(renderNextPage))
+
 // 進行keword搜尋
 searchForm.addEventListener('submit', fetchSearching)
 

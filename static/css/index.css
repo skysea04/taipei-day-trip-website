@@ -1,3 +1,6 @@
+.main-contain{
+    min-height: calc(100% - 54px - 112px);
+}
 /* slogan */
 .slogan{
     position: relative;
@@ -86,6 +89,11 @@ main .attraction{
 .img-contain{
     position: relative;
     display: block;
+    cursor: pointer;
+    /* background: #ffffff00; */
+}
+.img-contain:hover{
+    opacity: 0.7;
 }
 .img-contain::before{
     opacity: 0;
@@ -108,7 +116,8 @@ main .attraction{
 
 .attraction>.name{
     display: block;
-    width: auto;
+    /* min-width: 100%; */
+    max-width: fit-content;
     text-decoration: none;
     margin: 7px 10px;
     font-weight: 700;
@@ -116,6 +125,10 @@ main .attraction{
     overflow: hidden;
     text-overflow : ellipsis;
     white-space: nowrap;
+    cursor: pointer;
+}
+.attraction>.name:hover{
+    color: #448899;
 }
 .attraction-info{
     margin: 0 10px;
