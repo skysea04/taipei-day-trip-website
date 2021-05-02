@@ -24,14 +24,14 @@ const fetchAttractions = async () => {
             // 包全部
             const attrContain = document.createElement('div')
             attrContain.classList.add('attraction')
-            // 包img(還沒放網址)
+            // 包img
             const imgContain = document.createElement('a')
             imgContain.href = `/attraction/${attr.id}`
             imgContain.classList.add('img-contain')
             // img本人
             const img = document.createElement('img')
             img.src = attr.images[0]
-            // 景點名稱（還沒放網址）
+            // 景點名稱
             const name = document.createElement('a')
             name.classList.add('name')
             name.title = attr.name

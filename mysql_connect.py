@@ -13,7 +13,7 @@ cursor = db.cursor()
 
 ##  select函式使用方法：看要找什麼就在參數寫x='x' 
 ##  範例
-##  db_select(username='ply', password='ply')
+##  db_select('user', username='ply', password='ply')
 def db_select(table, **kargs):
     sql=f'SELECT * FROM {table} WHERE'
     for key in kargs:
@@ -28,7 +28,7 @@ def db_select(table, **kargs):
 
 ##  insert函式使用方法：看要找什麼就在參數寫x='x'
 ##  範例
-##  db_insert(name='澎澎', username='ply', password='ply')
+##  db_insert('user', name='澎澎', username='ply', password='ply')
 def db_insert(table, **kargs):
     sql =f'INSERT INTO {table} '
     column = '('
@@ -41,7 +41,7 @@ def db_insert(table, **kargs):
     column = column[:-1] + ')'
     value = value[:-1] + ')'
     sql += column + ' VALUES ' + value
-    print(sql)
+    # print(sql)
     cursor.execute(sql)
     db.commit()
 

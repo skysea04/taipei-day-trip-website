@@ -148,26 +148,24 @@ main{
     border: none;
 }
 
-.booking-form .time>*{
-    margin-right: 12px;
+.booking-form .time>label{
+    margin-right: 10px;
 }
-.booking-form .time input[type="radio"] {
-    display:none;
-}
-.booking-form .time input[type="radio"] + label span {
-    display:inline-block;
-    width:22px;
-    height:22px;
-    margin:-2px 4px 0 0;
-    vertical-align:middle;
+.booking-form .time input{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
     background:#ffffff;
-    border-radius: 50%;
     border: 2px solid #ffffff;
-    cursor:pointer;
+    border-radius: 50%;
+    transform: translateY(5px);
 }
-.booking-form .time input[type="radio"]:checked + label span {
-    background:#448899 -22px;
+.booking-form .time input:checked{
+    background: #448899;
 }
+
 
 .booking-form button{
     margin-top: 25px;

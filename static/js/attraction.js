@@ -5,6 +5,10 @@ const bookingInfo = document.querySelector('.booking-info')
 const imgContainer = bookingInfo.querySelector('.img-container')
 const imgIndex = bookingInfo.querySelector('.img-index')
 const profile = bookingInfo.querySelector('.profile')
+const id = bookingInfo.querySelector('input[name="id"]')
+const price = bookingInfo.querySelector('#price')
+const morningRadio = bookingInfo.querySelector('input[value="morning"]')
+const afternoonRadio = bookingInfo.querySelector('input[value="afternoon"]')
 
 //景點資訊元素
 const info = document.querySelector('.info')
@@ -12,17 +16,24 @@ const addressContainer = info.querySelector('.address')
 const transportContainer = info.querySelector('.transport')
 
 
+morningRadio.addEventListener('click', ()=>{
+    price.innerText = 2000
 
+})
+afternoonRadio.addEventListener('click', ()=>{
+    price.innerText = 2500
+})
+
+// fetch api
 const attractionID = document.URL.split('/').slice(-1);
-console.log(attractionID)
 const apiUrl = '/api/attraction/' + attractionID
 const fetchAttraction = async () => {
     const result = await fetch(apiUrl)
     const data = await result.json()
-    const attraction = data.data
+    const attr = data.data
     
     //寫入images 和 indexes
-    const imgUrls = attraction.images
+    const imgUrls = attr.images
     imgUrls.forEach(imgUrl => {
         const img = document.createElement('img')
         const index = document.createElement('div')
@@ -38,8 +49,12 @@ const fetchAttraction = async () => {
     //寫入profile 名稱 類別、捷運站
     const attractionName = document.createElement('h3')
     const category = document.createElement('p')
-    attractionName.innerText = attraction.name
-    category.innerText = `${attraction.category} at ${attraction.mrt}`
+    attractionName.innerText = attr.name
+    if(attr.mrt !== null){
+        category.innerText = `${attr.category} at ${attr.mrt}`
+    }else{
+        category.innerText = attr.category
+    }
     profile.insertAdjacentElement('afterbegin', category)
     profile.insertAdjacentElement('afterbegin', attractionName)
 
@@ -47,9 +62,10 @@ const fetchAttraction = async () => {
     const description = document.createElement('p')
     const address = document.createElement('p')
     const transport = document.createElement('p')
-    description.innerText = attraction.description
-    address.innerText = attraction.address
-    transport.innerText = attraction.transport
+    description.innerText = attr.description
+    address.innerText = attr.address
+    transport.innerText = attr.transport
+    id.value = attr.id
 
     info.insertAdjacentElement('afterbegin', description)
     addressContainer.append(address)
@@ -76,7 +92,7 @@ fetchAttraction()
                 if(imgs[i].className.includes('show')){
                     currentImgIndex = i
                     preImgIndex = ( i===0 ? imgCount-1 : i-1)
-                    nextImgIndex = ( i === imgCount-1 ? 0 : i+1)
+                    nextImgIndex = ( i===imgCount-1 ? 0 : i+1)
                 }
             }
         }
@@ -101,11 +117,13 @@ fetchAttraction()
         //自動播放
         let autoChangeImg = window.setInterval(showNextImg, changeTime)
         
+        //上一頁
         preBtn.addEventListener('click',()=>{
             showPreImg()
             clearInterval(autoChangeImg)
             autoChangeImg = window.setInterval(showNextImg, changeTime)
         })
+        //下一頁
         nextBtn.addEventListener('click',()=>{
             showNextImg()
             clearInterval(autoChangeImg)
