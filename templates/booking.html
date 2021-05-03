@@ -61,74 +61,75 @@
     </section>
 
     <main>
-        <h3 class="headline">您好，Yakko，待預定的行程如下：</h3>
-        <form class="itinerary">
-            <img src="../static/Picture.png" alt="">
-            <div class="info">
-                <h4>台北一日遊：平安鐘</h4>
-                <button><i class="fas fa-trash-alt"></i></button>
-                <div class="date">
-                    <label>日期：</label>
-                    <span>2021-04-23</span>
+        <h3 class="headline"></h3>
+        <div class="booking-container">
+            <form class="itinerary">
+                <img src="../static/Picture.png" alt="">
+                <div class="info">
+                    <h4>台北一日遊：平安鐘</h4>
+                    <button><i class="fas fa-trash-alt"></i></button>
+                    <div class="date">
+                        <label>日期：</label>
+                        <span>2021-04-23</span>
+                    </div>
+                    <div class="time">
+                        <label>時間：</label>
+                        <span>早上 9 點到下午 4 點</span>
+                    </div>
+                    <div class="fee">
+                        <label>費用：</label>
+                        <span>新台幣 2000 元</span>
+                    </div>
+                    <div class="address">
+                        <label>地點：</label>
+                        <span>臺北市 大安區忠孝東路4段</span>
+                    </div>
                 </div>
-                <div class="time">
-                    <label>時間：</label>
-                    <span>早上 9 點到下午 4 點</span>
-                </div>
-                <div class="fee">
-                    <label>費用：</label>
-                    <span>新台幣 2000 元</span>
-                </div>
-                <div class="address">
-                    <label>地點：</label>
-                    <span>臺北市 大安區忠孝東路4段</span>
-                </div>
-            </div>
-        </form>
-        <div class="seperator"></div>
-        <form class="input">
-            <div class="info">
-                <h3>您的聯絡資訊</h3>
-                <div>
-                    <label for="name">聯絡姓名：</label>
-                    <input type="text" id="name" name="name">
-                </div>
-                <div>
-                    <label for="email">連絡信箱：</label>
-                    <input type="email" id="email" name="email">
-                </div>
-                <div>
-                    <label for="phone">手機號碼：</label>
-                    <input type="text" id="phone" name="phone">
-                </div>
-                <p>請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</p>
-            </div>
+            </form>
             <div class="seperator"></div>
-            <div class="info">
-                <h3>信用卡付款資訊</h3>
-                <div>
-                    <label for="ccn">卡片號碼：</label>
-                    <!-- <input id="ccn" type="tel" inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxlength="19" placeholder="xxxx xxxx xxxx xxxx"> -->
-                    <input type="tel" id="ccn" pattern="\d*" x-autocompletetype="cc-number" placeholder="**** **** **** ****" required>
+            <form class="input">
+                <div class="info">
+                    <h3>您的聯絡資訊</h3>
+                    <div>
+                        <label for="name">聯絡姓名：</label>
+                        <input type="text" id="name" name="name">
+                    </div>
+                    <div>
+                        <label for="email">連絡信箱：</label>
+                        <input type="email" id="email" name="email">
+                    </div>
+                    <div>
+                        <label for="phone">手機號碼：</label>
+                        <input type="text" id="phone" name="phone">
+                    </div>
+                    <p>請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</p>
                 </div>
-                <div>
-                    <label for="cce">過期時間：</label>
-                    <!-- <input name="credit-expires" id="cce" type="tel" pattern="\d*" maxlength="7" placeholder="MM / YY"> -->
-                    <input type="tel" id="cce" pattern="\d*" x-autocompletetype="cc-exp" placeholder="MM / YY" required maxlength="9">
+                <div class="seperator"></div>
+                <div class="info">
+                    <h3>信用卡付款資訊</h3>
+                    <div>
+                        <label for="ccn">卡片號碼：</label>
+                        <!-- <input id="ccn" type="tel" inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxlength="19" placeholder="xxxx xxxx xxxx xxxx"> -->
+                        <input type="tel" id="ccn" pattern="\d*" x-autocompletetype="cc-number" placeholder="**** **** **** ****" required>
+                    </div>
+                    <div>
+                        <label for="cce">過期時間：</label>
+                        <!-- <input name="credit-expires" id="cce" type="tel" pattern="\d*" maxlength="7" placeholder="MM / YY"> -->
+                        <input type="tel" id="cce" pattern="\d*" x-autocompletetype="cc-exp" placeholder="MM / YY" required maxlength="9">
+                    </div>
+                    <div>
+                        <label for="cvv">驗證號碼：</label>
+                        <!-- <input name="credit-cvc" id="cvv" type="tel" pattern="\d*" maxlength="4" placeholder="CVV"> -->
+                        <input type="tel" id="cvv" pattern="\d*" x-autocompletetype="cc-csc" placeholder="CVV" required  autocomplete="off">
+                    </div>
                 </div>
-                <div>
-                    <label for="cvv">驗證號碼：</label>
-                    <!-- <input name="credit-cvc" id="cvv" type="tel" pattern="\d*" maxlength="4" placeholder="CVV"> -->
-                    <input type="tel" id="cvv" pattern="\d*" x-autocompletetype="cc-csc" placeholder="CVV" required  autocomplete="off">
+                <div class="seperator"></div>
+                <div class="confirm">
+                    <p>總價：新台幣 2000 元</p>
+                    <button type="submit">確認訂購並付款</button>
                 </div>
-            </div>
-            <div class="seperator"></div>
-            <div class="confirm">
-                <p>總價：新台幣 2000 元</p>
-                <button type="submit">確認訂購並付款</button>
-            </div>
-        </form>
-
+            </form>
+        </div>
     </main>
 
     <footer>

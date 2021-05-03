@@ -106,6 +106,8 @@ function signin(e){
             toSignBtn.classList.remove('show')
             signoutBtn.classList.add('show')
             alert("登入成功！歡迎")
+            //booking頁面更新用
+            try{ getUserData() }catch(e){}
         }else{
             alert(data.message)
         }
@@ -121,6 +123,10 @@ function signout(){
     fetch(url, {
         method: 'DELETE'
     })
-    .then(() => signinCheck())
+    .then(() => {
+        signinCheck()
+        //booking頁面更新用
+        try{ getUserData() }catch(e){}
+    })
 }
 signoutBtn.addEventListener('click', signout)

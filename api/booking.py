@@ -7,7 +7,38 @@ appBooking = Blueprint('appBooking', __name__)
 
 @appBooking.route('/booking', methods=["GET"])
 def get_booking():
-    return 0
+    if "user" in session:
+        booking_list = []
+        user_id = session["user"]["id"]
+        sql = f'SELECT booking.id, attraction_id, name, address, images, date, time, price FROM booking INNER JOIN attraction WHERE user_id={user_id} AND booking.attraction_id=attraction.id'
+        cursor.execute(sql)
+        bookings = cursor.fetchall()
+        for booking in bookings:
+            booking_data = dict(zip(cursor.column_names, booking))
+            book_data = {
+                "id": booking_data["id"],
+                "attraction": {
+                    "id": booking_data["attraction_id"],
+                    "name": booking_data["name"],
+                    "address": booking_data["address"],
+                    "image": json.loads(booking_data["images"])[0]
+                },
+                "date": booking_data["date"].strftime("%Y-%m-%d"),
+                "time": booking_data["time"],
+                "price": booking_data["price"]
+            }
+            booking_list.append(book_data)
+
+        data = {
+            "data": booking_list
+        }
+        return jsonify(data)
+            
+    data = {
+        "error": True,
+        "message": "未登入系統，操作失敗"
+    }
+    return jsonify(data)
 
 
 @appBooking.route('/booking', methods=["POST"])
@@ -48,4 +79,10 @@ def post_booking():
 
 @appBooking.route('/booking', methods=["DELETE"])
 def delete_booking():
-    return 0
+    if "user" in session:
+        return "ii"
+    data = {
+        "error": True,
+        "message": "未登入系統，操作失敗"
+    }
+    return jsonify(data)

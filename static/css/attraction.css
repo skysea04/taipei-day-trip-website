@@ -189,6 +189,7 @@ main{
 }
 .info p{
     text-align: justify;
+    line-height: 180%;
 }
 .info .title{
     font-weight: bold;
