@@ -15,5 +15,18 @@ CREATE TABLE user(
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL,
+    KEY email_pwd_index(email, password)
+);
+
+CREATE TABLE booking(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    attraction_id INT NOT NULL,
+    date DATE NOT NULL,
+    time ENUM("morning", "afternoon") NOT NULL,
+    price INT NOT NULL,
+    FOREIGN KEY(user_id)
+        REFERENCES user(id)
+        ON DELETE CASCADE
 );

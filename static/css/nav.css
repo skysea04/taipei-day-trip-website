@@ -1,5 +1,6 @@
 html {
     box-sizing: border-box;
+    height: 100%;
 }
 
 *, *:before, *:after {
@@ -9,6 +10,7 @@ html {
 }
 
 body{
+    height: 100%;
     width: 100%;
     font-family: 'Noto Sans', sans-serif;
 }
@@ -56,8 +58,15 @@ nav .nav-link *{
     cursor: pointer;
 }
 
-nav .nav-link *:hover, nav .nav-link *.active{
+nav .nav-link :is(*:hover ,*.active){
     color: #448899;
+}
+
+nav .nav-link div{
+    display: none;
+}
+nav .nav-link div.show{
+    display: block;
 }
 
 
