@@ -9,6 +9,7 @@ let isFetching = false
 //fetch景點函式
 const fetchAttractions = async () => {
     isFetching = true
+    // model
     if(page===null) return
     let apiUrl = ''
     if(keyword === ''){
@@ -18,6 +19,7 @@ const fetchAttractions = async () => {
     }
     const result = await fetch(apiUrl)
     const data = await result.json()
+    // view
     if(data["data"]){
         const attractions = data.data
         for(let attr of attractions){
@@ -56,6 +58,7 @@ const fetchAttractions = async () => {
     }
 
     page = data['nextPage']
+    //當main沒有加入任何值時（沒有任何景點），加入提示字樣
     if(main.innerHTML === ''){
         const noResult = document.createElement('h3')
         noResult.innerText = `找不到符合「${keyword}」的景點`
@@ -108,21 +111,6 @@ const debounce = (func, wait=100) => {
         timeout = setTimeout(later, wait)
     }
 }
-
-// 滾動時觸發renderNextPage 自創bounce版本
-// let iswaiting = false
-// window.addEventListener('scroll', ()=>{
-//     console.log('condition')
-//     if(!iswaiting){
-//         renderNextPage()
-//         // console.log('notwaiting')
-//         iswaiting = true
-//         let timeout = window.setTimeout(()=>{
-//             iswaiting = false  
-//             // console.log('finishWaiting')       
-//         }, 1000)
-//     }
-// })
 
 // 滾動時觸發renderNextPage 
 window.addEventListener('scroll', debounce(renderNextPage))

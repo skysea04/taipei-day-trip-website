@@ -105,8 +105,10 @@ function signin(e){
             signinCheck()
             toSignBtn.classList.remove('show')
             signoutBtn.classList.add('show')
+            alert("登入成功！歡迎")
+        }else{
+            alert(data.message)
         }
-        console.log(data)
     })
 }
 

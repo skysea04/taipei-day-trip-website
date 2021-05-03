@@ -64,7 +64,7 @@ def signin():
             res = make_response(jsonify(data))
             res.set_cookie(key='signin', value='1', httponly=False)
             return res
-        # 註冊成功
+        # 登入失敗
         else:
             data = {
                 "error": True,

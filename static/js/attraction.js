@@ -25,8 +25,8 @@ afternoonRadio.addEventListener('click', ()=>{
 })
 
 // fetch api
-const attractionID = document.URL.split('/').slice(-1);
-const apiUrl = '/api/attraction/' + attractionID
+const attractionId = document.URL.split('/').slice(-1);
+const apiUrl = '/api/attraction/' + attractionId
 const fetchAttraction = async () => {
     const result = await fetch(apiUrl)
     const data = await result.json()
@@ -131,4 +131,36 @@ fetchAttraction()
         })
     })
         
-        
+
+
+// booking 行程訂購功能
+const bookingForm = bookingInfo.querySelector('.booking-form')
+
+function bookingItinerary(e){
+    e.preventDefault()
+    const data = {
+        attractionId : parseInt(attractionId), 
+        date : this.querySelector('input[name="date"]').value,
+        time : this.querySelector('input[name="time"]:checked').value,
+        price : parseInt(this.querySelector('#price').innerText)
+    }
+    const url = '/api/booking'
+    fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: new Headers({
+            'Content-Type': 'application/json'
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if(data.ok === true){
+            const bookingPage = document.querySelector('.nav-link a')
+            bookingPage.click()
+        }else{
+            alert(data.message)
+        }
+    })
+}
+
+bookingForm.addEventListener('submit', bookingItinerary)
