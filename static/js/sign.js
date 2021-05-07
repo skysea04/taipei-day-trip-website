@@ -5,22 +5,6 @@ const signBg = document.querySelector('.sign-bg')
 const signCloseBtns = signBg.querySelectorAll('.close-btn')
 const signContainers = document.querySelectorAll('.sign-container')
 
-let signinCookie
-//檢查是否有登入，若有login cookie秀出signoutBtn
-function signinCheck(){
-    signinCookie = document.cookie.indexOf('signin=')
-    if(signinCookie == -1){
-        toSignBtn.classList.add('show')
-        signoutBtn.classList.remove('show')
-    }
-    else{ 
-        toSignBtn.classList.remove('show')
-        signoutBtn.classList.add('show')
-    }
-}
-//進入頁面後先檢查使用者有沒有登入
-signinCheck()
-
 //秀出登入、註冊欄位
 function popUpSignField(){
     signBg.classList.add('pop-up')
@@ -60,7 +44,7 @@ signContainers.forEach(container => {
 // 登入、註冊功能
 const signupForm = document.querySelector('#signup')
 const signinForm = document.querySelector('#signin')
-const url = '/api/user'
+const userAPI = '/api/user'
 
 // 註冊
 function signup(e){
@@ -70,9 +54,9 @@ function signup(e){
         email : this.querySelector('input[name="email"]').value,
         password : this.querySelector('input[name="password"]').value 
     }
-    fetch(url, {
+    fetch(userAPI, {
         method: 'POST',
-        body: JSON.stringify(data), // data can be `string` or {object}!
+        body: JSON.stringify(data),
         headers: new Headers({
           'Content-Type': 'application/json'
         })
@@ -90,7 +74,7 @@ function signin(e){
         email : this.querySelector('input[name="email"]').value,
         password : this.querySelector('input[name="password"]').value 
     }
-    fetch(url, {
+    fetch(userAPI, {
         method: 'PATCH',
         body: JSON.stringify(data), // data can be `string` or {object}!
         headers: new Headers({
@@ -108,6 +92,7 @@ function signin(e){
             alert("登入成功！歡迎")
             //booking頁面更新用
             try{ getUserData() }catch(e){}
+            try{ getBookingData() }catch(e){}
         }else{
             alert(data.message)
         }
@@ -120,13 +105,32 @@ signinForm.addEventListener('submit', signin)
 
 //登出
 function signout(){
-    fetch(url, {
+    fetch(userAPI, {
         method: 'DELETE'
     })
     .then(() => {
         signinCheck()
+        alert("登出成功！")
         //booking頁面更新用
         try{ getUserData() }catch(e){}
+        try{ getBookingData() }catch(e){}
     })
 }
 signoutBtn.addEventListener('click', signout)
+
+//檢查是否有登入，若get user api有資料，秀出signoutBtn
+function signinCheck(){
+    fetch(userAPI)
+        .then(res => res.json())
+        .then(data => {
+            if(data.data){
+                toSignBtn.classList.remove('show')
+                signoutBtn.classList.add('show')
+            }else{
+                toSignBtn.classList.add('show')
+                signoutBtn.classList.remove('show')
+            }
+        })
+}
+//進入頁面後先檢查使用者有沒有登入
+signinCheck()

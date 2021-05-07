@@ -26,7 +26,17 @@ CREATE TABLE booking(
     date DATE NOT NULL,
     time ENUM("morning", "afternoon") NOT NULL,
     price INT NOT NULL,
+    pay BOOLEAN NOT NULL DEFAULT false,
     FOREIGN KEY(user_id)
         REFERENCES user(id)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE orders(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    order_number VARCHAR(255) NOT NULL,
+    booking_id INT NOT NULL,
+    FOREIGN KEY(booking_id)
+        REFERENCES booking(id)
         ON DELETE CASCADE
 );

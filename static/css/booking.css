@@ -16,7 +16,7 @@ button{
 
 /* 主頁面 */
 main{
-    min-height: calc(100% - 54px - 112px);
+    min-height: calc(100% - 54px - 102px - 40px);
     width: 1200px;
     margin: 0 auto;
 }
@@ -28,6 +28,10 @@ main{
 
 
 /* 暫定的行程form */
+.booking-container>p{
+    width: 980px;
+    margin: 0 auto;
+}
 .itinerary{
     width: 980px;
     margin: 0 auto 40px auto;
@@ -72,27 +76,37 @@ main{
 
 
 /* 實際要輸入的表單內容 */
-.input>.info{
+.order{
+    display: none;
+}
+.order.show{
+    display: block;
+}
+
+.order>.info{
     width: 980px;
     margin: 0 auto;
 }
 
-.input>.info>h3{
+.order>.info>h3{
     margin-bottom: 20px;
 }
 
-.input>.info>div{
+.order>.info>div{
     margin-bottom: 15px;
+    display: flex;
+    align-items: center;
 }
 
-.input input{
+.order :is(input, .tpfield){
     width: 200px;
     padding: 10px;
     border:1px solid #E8E8E8;
     border-radius: 5px;
+    height: 35px;
 }
 
-.input p{
+.order p{
     font-weight: bold;
 }
 
@@ -122,6 +136,11 @@ main{
     cursor: pointer;
 }
 
+.confirm button:disabled{
+    background: rgb(168, 168, 168);
+    cursor: auto;
+}
+
 @media (max-width:1200px){
     main{
         width: 100%;
@@ -131,13 +150,16 @@ main{
 }
 
 @media (max-width:980px){
+    .headline{
+        width: 100%;
+    }
     .itinerary{
         width: 100%;
     }
     .itinerary>.info{
         width: calc(100% - 280px);
     }
-    .input, .input :is(.info, .confirm){
+    .order, .order :is(.info, .confirm){
         width: 100%;
     }
 }

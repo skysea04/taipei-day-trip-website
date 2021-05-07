@@ -1,13 +1,14 @@
 import mysql.connector
+import mysql.connector.pooling
 from config import Config
 import json
 
 db = mysql.connector.connect(
-        host='localhost',
-        user = Config.mysql_user,
-        password = Config.mysql_password,
-        database='taipei_trip'
-    )
+    host = 'localhost',
+    user = Config.mysql_user,
+    password = Config.mysql_password,
+    database = 'taipei_trip'
+)
 
 cursor = db.cursor()
 
@@ -44,16 +45,3 @@ def db_insert(table, **kargs):
     # print(sql)
     cursor.execute(sql)
     db.commit()
-
-
-def select_attraction(sql):
-	cursor.execute(sql)
-	result = cursor.fetchall()
-	# attrs為本次搜尋所有景點資料的陣列
-	attraction_list = []
-	for attr in result:
-		temp_attr = dict(zip(cursor.column_names, attr))
-		temp_attr['images'] = json.loads(attr[9])
-		attraction_list.append(temp_attr)
-	
-	return attraction_list

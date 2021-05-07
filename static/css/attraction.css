@@ -12,7 +12,7 @@ h3, p, label, span{
 main{
     margin: 40px auto;
     width: 1200px;
-    min-height: calc(100% - 54px - 112px + 80px);
+    min-height: calc(100% - 54px - 102px + 80px);
 }
 
 
