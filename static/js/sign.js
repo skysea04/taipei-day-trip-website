@@ -1,9 +1,21 @@
+// navbar hamburger操作
+const hamburger = document.querySelector('.ham')
+const navContainer = document.querySelector('.nav-link')
+
+function toggleNavLink(){
+    navContainer.classList.toggle('show')
+}
+
+hamburger.addEventListener('click', toggleNavLink)
+
+
 // popup 相關函式
 const toSignBtn = document.querySelector('#to-sign-btn')
 const signoutBtn = document.querySelector('#signout-btn')
 const signBg = document.querySelector('.sign-bg')
 const signCloseBtns = signBg.querySelectorAll('.close-btn')
 const signContainers = document.querySelectorAll('.sign-container')
+const memberLink = document.querySelector('.member-page')
 
 //秀出登入、註冊欄位
 function popUpSignField(){
@@ -90,9 +102,10 @@ function signin(e){
             toSignBtn.classList.remove('show')
             signoutBtn.classList.add('show')
             alert("登入成功！歡迎")
-            //booking頁面更新用
+            //頁面更新用
             try{ getUserData() }catch(e){}
             try{ getBookingData() }catch(e){}
+            try{ fetchOrderAPI() }catch(e){}
         }else{
             alert(data.message)
         }
@@ -111,9 +124,10 @@ function signout(){
     .then(() => {
         signinCheck()
         alert("登出成功！")
-        //booking頁面更新用
+        //頁面更新用
         try{ getUserData() }catch(e){}
         try{ getBookingData() }catch(e){}
+        try{ fetchOrderAPI() }catch(e){}
     })
 }
 signoutBtn.addEventListener('click', signout)
@@ -126,9 +140,11 @@ function signinCheck(){
             if(data.data){
                 toSignBtn.classList.remove('show')
                 signoutBtn.classList.add('show')
+                memberLink.classList.add('show')
             }else{
                 toSignBtn.classList.add('show')
                 signoutBtn.classList.remove('show')
+                memberLink.classList.remove('show')
             }
         })
 }

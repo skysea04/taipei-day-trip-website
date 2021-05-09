@@ -28,13 +28,14 @@ const bookingContainer = document.querySelector('.booking-container')
 let totalPrice = 0
 let itineraryForms
 
+// 獲取行程資料
 function getBookingData(){
     bookingContainer.innerHTML = ''
     totalPrice = 0
     fetch(bookingAPI)
     .then(res => res.json())
     .then(data => data.data)
-    .then(bookings => {
+    .then(bookings => {    
         const trip = []
         bookings.forEach(booking => {
             //將到時候要送出order的行程資料先建立起來
@@ -127,7 +128,7 @@ function getBookingData(){
             noBooking()
         }
 
-
+        // 送出訂單資訊＆付款
         function sendOrder(e) {
             e.preventDefault()
         
@@ -155,6 +156,7 @@ function getBookingData(){
                 })
             })
             
+            // 將訂單資訊傳送到後端接收回應
             getPrime.then(prime => {
                 console.log(prime)
                 data = {
@@ -177,7 +179,17 @@ function getBookingData(){
                     })
                 })
                 .then(res => res.json())
-                .then(data => console.log(data))
+                .then(data => {
+                    if(data.data){
+                        if(data.data.payment.status == 0){
+                            memberLink.click()
+                        }else{
+                            alert(data.data.payment.message)
+                        }
+                    }else{
+                        alert(data.message)
+                    }
+                })
             })
             
         }
@@ -190,7 +202,7 @@ function getBookingData(){
     })
 }
 
-
+// 刪除行程
 function deleteBooking(e){
     e.preventDefault()
     const bookingId = this.querySelector('input')
@@ -207,6 +219,7 @@ function deleteBooking(e){
     })
 }
 
+// 有行程時顯示表單
 function hasBooking(){
     //顯示input表單
     orderForm.classList.add('show')
@@ -220,6 +233,7 @@ function hasBooking(){
     })
 }
 
+// 沒有任何行程時不顯示表單
 function noBooking(){
     orderForm.classList.remove('show')
     const noBooking = document.createElement('p')
@@ -230,8 +244,11 @@ function noBooking(){
 getBookingData()
 
 
-//訂單付款
 
+
+// ⬇︎以下為TapPay付款相關函式
+
+// 訂單付款
 TPDirect.setupSDK(20169, 'app_fBb2AL9HJUNdFqUglD9sU2IwMJxcIDeRW5CYrPftEeTHZWvRnERO7tnxNBI0', 'sandbox')
 
 // Display ccv field

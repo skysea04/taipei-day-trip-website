@@ -12,9 +12,10 @@ def get_booking():
         if "user" in session:
             booking_list = []
             user_id = session["user"]["id"]
-            sql = f'SELECT booking.id, attraction_id, name, address, images, date, time, price FROM booking INNER JOIN attraction WHERE user_id={user_id} AND pay=0 AND booking.attraction_id=attraction.id'
+            sql = f'SELECT booking.id, attraction_id, name, address, images, date, time, price FROM booking INNER JOIN attraction WHERE user_id={user_id} AND order_number IS NULL AND booking.attraction_id=attraction.id'
             cursor.execute(sql)
             bookings = cursor.fetchall()
+
             for booking in bookings:
                 booking_data = dict(zip(cursor.column_names, booking))
                 book_data = {

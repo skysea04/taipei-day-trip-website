@@ -9,7 +9,7 @@ from api.user import appUser
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
-app.config["SECRET_KEY"] = os.urandom(24).hex()
+app.config["SECRET_KEY"] = 'happy'
 
 #Api
 app.register_blueprint(appAttraction, url_prefix='/api')
@@ -30,7 +30,9 @@ def booking():
 @app.route("/thankyou")
 def thankyou():
 	return render_template("thankyou.html")
-
+@app.route('/member')
+def memeber():
+	return render_template("member.html")
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0',port=3000, debug=True)
