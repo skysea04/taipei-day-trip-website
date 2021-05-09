@@ -152,6 +152,9 @@ main{
     .headline{
         width: 100%;
     }
+    .booking-container>p{
+        width: 100%;
+    }
     .itinerary{
         width: 100%;
     }

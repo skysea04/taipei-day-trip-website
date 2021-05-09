@@ -9,7 +9,7 @@ from api.user import appUser
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
-app.config["SECRET_KEY"] = 'happy'
+app.config["SECRET_KEY"] = os.urandom(24).hex()
 
 #Api
 app.register_blueprint(appAttraction, url_prefix='/api')
