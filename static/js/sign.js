@@ -75,7 +75,14 @@ function signup(e){
     })
     .then(res => res.json())
     //看response結果
-    .then(data => console.log(data))
+    .then(data => {
+        if(data.ok){
+            alert("註冊成功")
+            changeSignContainer()
+        }else{
+            alert(data.message)
+        }
+    })
 }
 
 
