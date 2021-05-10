@@ -236,7 +236,7 @@ function hasBooking(){
 // 沒有任何行程時不顯示表單
 function noBooking(){
     orderForm.classList.remove('show')
-    const noBooking = document.createElement('p')
+    const noBooking = document.createElement('h4')
     noBooking.innerText = '目前沒有任何待預定的行程'
     bookingContainer.append(noBooking)
 }

@@ -23,6 +23,11 @@ main{
     margin: 40px auto 15px;
 }
 
+.orders>h4{
+    width: 980px;
+    margin: 0 auto;
+}
+
 .order{
     width: 100%;
     margin: 0 auto 20px;
@@ -142,8 +147,12 @@ main{
     .headline{
         width: 100%;
     }
+    .orders>h4{
+        width: 100%;
+    }
     .order>h4{
         width: 100%;
+        
     }
     .bookings{
         width: 100%;

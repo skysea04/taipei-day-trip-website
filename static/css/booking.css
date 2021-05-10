@@ -1,4 +1,4 @@
-h3, p, span, label, i{
+h3, h4, p, span, label, i{
     color: #666666;
 }
 button{
@@ -27,7 +27,7 @@ main{
 }
 
 /* 暫定的行程form */
-.booking-container>p{
+.booking-container>h4{
     width: 980px;
     margin: 0 auto;
 }
@@ -152,7 +152,7 @@ main{
     .headline{
         width: 100%;
     }
-    .booking-container>p{
+    .booking-container>h4{
         width: 100%;
     }
     .itinerary{

@@ -9,7 +9,6 @@ const fetchOrderAPI = async () => {
     if(data.error){
         const noOrders = document.createElement('h4')
         noOrders.innerText = data.message
-        noOrders.style = 'width: 980px; margin:0 auto;'
         orders.append(noOrders)
     }
     else{
@@ -146,7 +145,6 @@ const fetchOrderAPI = async () => {
         else{
             const noOrders = document.createElement('h4')
             noOrders.innerText = "沒有任何訂單記錄"
-            noOrders.style = 'width: 980px; margin:0 auto;'
             orders.append(noOrders)
         }
     
