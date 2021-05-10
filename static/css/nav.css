@@ -180,7 +180,7 @@ nav .ham{
     margin: 0 auto;
 }
 
-.sign-container .main-content p:hover{
+.sign-container .main-content .change-sign:hover{
     text-decoration: underline;
 }
 
