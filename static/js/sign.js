@@ -78,7 +78,8 @@ function signup(e){
     .then(data => {
         const message = this.querySelector('.message')
         if(data.ok){
-            message.innerText = '註冊成功！'
+            alert("註冊成功")
+            changeSignContainer()
         }else{
             message.innerText = data.message
         }
