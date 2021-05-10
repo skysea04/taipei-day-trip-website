@@ -48,7 +48,7 @@ signBg.addEventListener('click', e => {
 })
 
 signContainers.forEach(container => {
-    const changeBtn = container.querySelector('p')
+    const changeBtn = container.querySelector('.change-sign')
     changeBtn.addEventListener('click', changeSignContainer)
 })
 
@@ -76,11 +76,11 @@ function signup(e){
     .then(res => res.json())
     //看response結果
     .then(data => {
+        const message = this.querySelector('.message')
         if(data.ok){
-            alert("註冊成功")
-            changeSignContainer()
+            message.innerText = '註冊成功！'
         }else{
-            alert(data.message)
+            message.innerText = data.message
         }
     })
 }
@@ -114,7 +114,8 @@ function signin(e){
             try{ getBookingData() }catch(e){}
             try{ fetchOrderAPI() }catch(e){}
         }else{
-            alert(data.message)
+            const message = this.querySelector('.message')
+            message.innerText = data.message
         }
     })
 }

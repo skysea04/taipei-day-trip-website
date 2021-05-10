@@ -168,7 +168,12 @@ nav .ham{
     cursor: pointer;
 }
 
-.sign-container .main-content p{
+.sign-container .main-content .message{
+    color: #448899;
+    margin-bottom: 10px;
+}
+
+.sign-container .main-content .change-sign{
     color: #666666;
     cursor: pointer;
     width: fit-content;
