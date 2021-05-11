@@ -155,7 +155,7 @@ function bookingItinerary(e){
     .then(res => res.json())
     .then(data => {
         if(data.ok === true){
-            const bookingPage = document.querySelector('.nav-link a')
+            const bookingPage = document.querySelector('.nav-link .booking-page')
             bookingPage.click()
         }else{
             alert(data.message)

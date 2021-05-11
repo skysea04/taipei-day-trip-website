@@ -26,6 +26,8 @@ CREATE TABLE booking(
     date DATE NOT NULL,
     time ENUM("morning", "afternoon") NOT NULL,
     price INT NOT NULL,
+    order_number VARCHAR(255),
+    refund BOOLEAN DEFAULT false,
     FOREIGN KEY(user_id)
         REFERENCES user(id)
         ON DELETE CASCADE

@@ -3,6 +3,12 @@ html {
     height: 100%;
 }
 
+button{
+    background: none;
+    border: none;
+    outline: none;
+}
+
 *, *:before, *:after {
     box-sizing: inherit;
     padding: 0;
@@ -35,6 +41,7 @@ nav{
     height: 34px;
     margin: 10px auto;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
 }
 
@@ -45,11 +52,23 @@ nav .title{
     text-decoration: none;
     color: #448899;
 }
-nav .nav-link{
+
+nav .ham{
+    display: none;
+    color: #666666;
+    padding: 3px 10px;
+    border: 1px solid #666666;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.nav-link{
     display: flex;
 }
 
-nav .nav-link *{
+.nav-link *{
     font-size: 16px;
     line-height: 14px;
     color: #666666;
@@ -58,22 +77,24 @@ nav .nav-link *{
     cursor: pointer;
 }
 
-nav .nav-link :is(*:hover ,*.active){
+.nav-link :is(*:hover ,*.active){
     color: #448899;
 }
 
-nav .nav-link div{
+.nav-link :is(div, .member-page){
     display: none;
 }
-nav .nav-link div.show{
+.nav-link :is(div.show, .member-page.show){
     display: block;
 }
+
+
 
 
 /* 登入、註冊欄位 */
 .sign-bg{
     position: fixed;
-    z-index: 1;
+    z-index: 3;
     top: 0;
     left: 0;
     width: 100%;
@@ -147,14 +168,19 @@ nav .nav-link div.show{
     cursor: pointer;
 }
 
-.sign-container .main-content p{
+.sign-container .main-content .message{
+    color: #448899;
+    margin-bottom: 10px;
+}
+
+.sign-container .main-content .change-sign{
     color: #666666;
     cursor: pointer;
     width: fit-content;
     margin: 0 auto;
 }
 
-.sign-container .main-content p:hover{
+.sign-container .main-content .change-sign:hover{
     text-decoration: underline;
 }
 
@@ -166,4 +192,29 @@ nav .nav-link div.show{
     nav .title{
         margin-left: 10px;
     }
+}
+
+@media (max-width: 600px){
+    nav .ham{
+        display: block;
+    }
+    .nav-link{
+        width: 100%;
+        flex-direction: column;
+        text-align: center;
+        overflow: hidden;
+        visibility: hidden;
+        height: 0;
+        /* transition:all 0.5s;  */
+        background: #ffffff;
+        border-bottom: 1px solid #e8e8e8;
+    }
+
+    /* 下拉選單效果 */
+    .nav-link.show{
+        height: auto;
+        visibility: visible;
+        /* animation: all 0.5s; */
+    }
+
 }
