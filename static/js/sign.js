@@ -78,8 +78,7 @@ function signup(e){
     .then(data => {
         const message = this.querySelector('.message')
         if(data.ok){
-            alert("註冊成功")
-            changeSignContainer()
+            message.innerText = '註冊成功'
         }else{
             message.innerText = data.message
         }
@@ -107,9 +106,11 @@ function signin(e){
         if(data.ok === true){
             cancelPopUpSignField()
             signinCheck()
+            if(navContainer.classList.contains('show')){
+                toggleNavLink()
+            }
             toSignBtn.classList.remove('show')
             signoutBtn.classList.add('show')
-            alert("登入成功！歡迎")
             //頁面更新用
             try{ getUserData() }catch(e){}
             try{ getBookingData() }catch(e){}
@@ -132,7 +133,6 @@ function signout(){
     })
     .then(() => {
         signinCheck()
-        alert("登出成功！")
         //頁面更新用
         try{ getUserData() }catch(e){}
         try{ getBookingData() }catch(e){}
