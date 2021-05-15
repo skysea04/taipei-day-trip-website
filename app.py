@@ -1,15 +1,22 @@
 from flask import *
 import os
-# from mysql_connect import cursor, db, select_attraction
-from api.attraction import appAttraction
-from api.booking import appBooking
-from api.order import appOrder
-from api.user import appUser
+from config import Config
+from models import db
 
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
 app.config["SECRET_KEY"] = os.urandom(24).hex()
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{Config.mysql_user}:{Config.mysql_password}@localhost:3306/taipei_trip"
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {"pool_pre_ping":True}
+
+db.init_app(app)
+
+from api.attraction import appAttraction
+from api.booking import appBooking
+from api.order import appOrder
+from api.user import appUser
 
 #Api
 app.register_blueprint(appAttraction, url_prefix='/api')
