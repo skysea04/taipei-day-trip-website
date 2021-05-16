@@ -138,29 +138,39 @@ const bookingForm = bookingInfo.querySelector('.booking-form')
 
 function bookingItinerary(e){
     e.preventDefault()
-    const data = {
-        attractionId : parseInt(attractionId), 
-        date : this.querySelector('input[name="date"]').value,
-        time : this.querySelector('input[name="time"]:checked').value,
-        price : parseInt(this.querySelector('#price').innerText)
-    }
-    const url = '/api/booking'
-    fetch(url, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: new Headers({
-            'Content-Type': 'application/json'
+
+    fetch(userAPI)
+        .then(res => res.json())
+        .then(data => {
+            // 有登入
+            if(data.data){
+                const data = {
+                    attractionId : parseInt(attractionId), 
+                    date : this.querySelector('input[name="date"]').value,
+                    time : this.querySelector('input[name="time"]:checked').value,
+                    price : parseInt(this.querySelector('#price').innerText)
+                }
+                const bookingAPI = '/api/booking'
+                fetch(bookingAPI, {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: new Headers({
+                        'Content-Type': 'application/json'
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if(data.ok === true){
+                        const bookingPage = document.querySelector('.nav-link .booking-page')
+                        bookingPage.click()
+                    }else{
+                        alert(data.message)
+                    }
+                })
+            }else{  // 沒登入
+                popUpSignField()
+            }
         })
-    })
-    .then(res => res.json())
-    .then(data => {
-        if(data.ok === true){
-            const bookingPage = document.querySelector('.nav-link .booking-page')
-            bookingPage.click()
-        }else{
-            alert(data.message)
-        }
-    })
 }
 
 bookingForm.addEventListener('submit', bookingItinerary)

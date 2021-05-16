@@ -120,3 +120,21 @@ searchForm.addEventListener('submit', fetchSearching)
 
 //先執行一次page=0
 fetchAttractions()
+
+// 點擊預定行程欄位時，確認是否有登入
+const bookingPage = document.querySelector('.booking-page')
+
+function indexSigninCheck(e){
+    e.preventDefault()
+    fetch(userAPI)
+        .then(res => res.json())
+        .then(data => {
+            if(data.data){
+                window.location.assign(bookingPage)
+            }else{
+                popUpSignField()
+            }
+        })
+
+}
+bookingPage.addEventListener('click', indexSigninCheck)

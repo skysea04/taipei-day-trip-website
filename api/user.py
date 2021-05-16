@@ -7,7 +7,7 @@ appUser = Blueprint('appUser', __name__)
 
 @appUser.route('/user', methods=['GET'])
 def get_userdata():
-    # 登入成功
+    # 有登入
     if "user" in session:
         user = session['user']
         data = {
@@ -15,7 +15,7 @@ def get_userdata():
         }
         return jsonify(data)
 
-    # 登入失敗
+    # 沒登入
     data = {"data": None}
     return jsonify(data)
 
