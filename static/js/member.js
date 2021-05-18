@@ -119,7 +119,7 @@ const fetchOrderAPI = async () => {
                 const notice = document.createElement('p')
                 notice.classList.add('notice')
                 
-                if(order.refund === 0){
+                if(order.refund === false){
                     notice.innerText = '注意！訂購行程日期三天內不再接受任何退款'
                 }else{
                     notice.innerText = '本訂單已取消'

@@ -26,7 +26,7 @@ for i in range(data_length):
     for j in range(1, img_len):
         img_format = imgs[j][-4:]
         if img_format == '.jpg' or img_format == '.JPG' or img_format == '.png':
-            img_url = 'http:'+imgs[j]
+            img_url = 'https:'+imgs[j]
             img_list.append(img_url)
 
     sql = 'INSERT INTO attraction (name, category, description, address, transport, mrt, latitude, longitude, images) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)'

@@ -1,13 +1,13 @@
-from flask import *
+from flask import Blueprint, session, request, jsonify
 import sys
 sys.path.append("..")
-from mysql_connect import cursor, db, db_select, db_insert
+from models import User, db
 
 appUser = Blueprint('appUser', __name__)
 
 @appUser.route('/user', methods=['GET'])
 def get_userdata():
-    # 登入成功
+    # 有登入
     if "user" in session:
         user = session['user']
         data = {
@@ -15,7 +15,7 @@ def get_userdata():
         }
         return jsonify(data)
 
-    # 登入失敗
+    # 沒登入
     data = {"data": None}
     return jsonify(data)
 
@@ -23,16 +23,17 @@ def get_userdata():
 @appUser.route('/user', methods=['POST'])
 def signup():
     try:
-        db.reconnect(attempts=1, delay=0)
         data = request.json
         name = data['name']
         email = data['email']
         password = data['password']
-        exist_user = db_select('user', email=email)
+        exist_user = User.query.filter_by(email=email).first()
 
         # 註冊成功
         if not exist_user:
-            db_insert('user', name=name, email=email, password=password)
+            new_user = User(name=name, email=email, password=password)
+            db.session.add(new_user)
+            db.session.commit()
             data = {"ok": True}
             return jsonify(data), 200
 
@@ -56,18 +57,17 @@ def signup():
 @appUser.route('/user', methods=['PATCH'])
 def signin():
     try:
-        db.reconnect(attempts=1, delay=0)
         data = request.json
         email = data['email']
         password = data['password']
-        user = db_select('user', email=email, password=password)
+        user = User.query.filter_by(email=email, password=password).first()
 
         # 登入成功
         if user:
             session['user'] = {
-                "id": user["id"],
-                "name": user["name"],
-                "email": user["email"]
+                "id": user.id,
+                "name": user.name,
+                "email": user.email
             }
             data = {"ok": True}
             return jsonify(data)
@@ -78,7 +78,7 @@ def signin():
                 "error": True,
                 "message": "登入失敗，帳號或密碼輸入錯誤"
             }
-            return jsonify(data), 200
+            return jsonify(data), 400
 
     # 伺服器錯誤
     except:

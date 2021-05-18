@@ -1,30 +1,33 @@
 from flask import *
 import sys
 sys.path.append("..")
-from mysql_connect import cursor, db, db_insert, db_select
+from models import Attraction, Booking, db
+
 
 appBooking = Blueprint('appBooking', __name__)
 
 @appBooking.route('/booking', methods=["GET"])
 def get_booking():
     try:
-        db.reconnect(attempts=1, delay=0)
         if "user" in session:
             booking_list = []
             user_id = session["user"]["id"]
-            sql = f'SELECT booking.id, attraction_id, name, address, images, date, time, price FROM booking INNER JOIN attraction WHERE user_id={user_id} AND order_number IS NULL AND booking.attraction_id=attraction.id'
-            cursor.execute(sql)
-            bookings = cursor.fetchall()
+            bookings = Booking.query\
+                .join(Attraction, Attraction.id==Booking.attraction_id)\
+                .add_columns(Booking.id, Booking.attraction_id, Booking.date, Booking.time, Booking.price, Attraction.name, Attraction.address, Attraction.images)\
+                .filter(Booking.user_id == user_id)\
+                .filter(Booking.order_number.is_(None))\
+                .all()
 
             for booking in bookings:
-                booking_data = dict(zip(cursor.column_names, booking))
+                booking_data = booking._asdict()
                 book_data = {
                     "id": booking_data["id"],
                     "attraction": {
                         "id": booking_data["attraction_id"],
                         "name": booking_data["name"],
                         "address": booking_data["address"],
-                        "image": json.loads(booking_data["images"])[0]
+                        "image": booking_data["images"][0]
                     },
                     "date": booking_data["date"].strftime("%Y-%m-%d"),
                     "time": booking_data["time"],
@@ -53,7 +56,6 @@ def get_booking():
 @appBooking.route('/booking', methods=["POST"])
 def post_booking():
     try:
-        db.reconnect(attempts=1, delay=0)
         if 'user' in session:
             user_id = session["user"]["id"]
             booking = request.json
@@ -63,7 +65,9 @@ def post_booking():
             price = booking["price"]
             if attraction_id and date and ((time == 'morning' and price == 2000) or (time == 'afternoon' and price == 2500)):
                 # 建立行程成功
-                db_insert("booking", user_id=user_id, attraction_id=attraction_id, date=date, time=time, price=price)
+                new_booking = Booking(user_id=user_id, attraction_id=attraction_id, date=date, time=time, price=price)
+                db.session.add(new_booking)
+                db.session.commit()
                 data = {"ok": True}
                 return jsonify(data)
             # 輸入內容有誤
@@ -90,12 +94,10 @@ def post_booking():
 @appBooking.route('/booking', methods=["DELETE"])
 def delete_booking():
     try:
-        db.reconnect(attempts=1, delay=0)
         if "user" in session:
             delete_id = request.json["id"]
-            sql = f'DELETE FROM booking WHERE id={delete_id}'
-            cursor.execute(sql)
-            db.commit()
+            Booking.query.filter_by(id=delete_id).delete()
+            db.session.commit()
             data = {"ok": True}
             return jsonify(data)
         data = {

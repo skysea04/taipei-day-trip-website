@@ -5,22 +5,25 @@ import json
 import sys
 from datetime import date, timedelta
 sys.path.append("..")
-from mysql_connect import cursor, db, db_insert, db_select
+# from mysql_connect import cursor, db, db_insert, db_select
+from models import Attraction, Booking, db
 
 appOrder = Blueprint('appOrder', __name__)
 
 @appOrder.route('/order', methods = ["GET"])
 def get_user_order():
     try:
-        db.reconnect(attempts=1, delay=0)
         if "user" in session:
             user_id = session['user']['id']
 
             # 找尋所有該使用者的訂單
-            cursor = db.cursor(dictionary=True)
-            sql = f'SELECT name, address, images, date, time, price, order_number, refund FROM booking INNER JOIN attraction WHERE user_id={user_id} AND order_number IS NOT NULL AND booking.attraction_id=attraction.id ORDER BY booking.id DESC'
-            cursor.execute(sql)
-            bookings = cursor.fetchall()
+            bookings = Booking.query\
+                .join(Attraction, Attraction.id==Booking.attraction_id)\
+                .add_columns(Booking.date, Booking.time, Booking.price, Booking.order_number, Booking.refund, Attraction.name, Attraction.address, Attraction.images)\
+                .filter(Booking.user_id == user_id)\
+                .filter(Booking.order_number.isnot(None))\
+                .order_by(Booking.id.desc())\
+                .all()
             
             # 建立外層陣列、字典
             data_list = []
@@ -31,11 +34,12 @@ def get_user_order():
             }
 
             for booking in bookings:
+                booking = booking._asdict()
                 order = {
                     "price": booking["price"],
                     "attraction": {
                         "address": booking["address"],
-                        "image": json.loads(booking["images"])[0],
+                        "image": booking["images"][0],
                         "name": booking["name"]
                     },
                     "date": booking["date"].strftime("%Y-%m-%d"),
@@ -76,13 +80,11 @@ def get_user_order():
             "message": "伺服器內部錯誤"
         }
         return jsonify(data), 500
-    
         
 
 @appOrder.route('/order/<orderNumber>', methods=["GET"])
 def get_order(orderNumber):
     try:
-        db.reconnect(attempts=1, delay=0)
         if "user" in session:
 
             # 向TapPay獲取訂單資料
@@ -108,26 +110,30 @@ def get_order(orderNumber):
                 }
                 return jsonify(data), 400
             
+
             # 有訂單的情況
             booking_list = []
+
             # 尋找每個order_number是orderNumber的order
-            sql = f'SELECT booking.id, attraction_id, name, address, images, date, time, price FROM booking INNER JOIN attraction WHERE order_number="{orderNumber}" AND booking.attraction_id=attraction.id'
-            cursor.execute(sql)
-            bookings = cursor.fetchall()
+            bookings = Booking.query\
+                .join(Attraction, Attraction.id==Booking.attraction_id)\
+                .add_columns(Booking.id, Booking.attraction_id, Booking.date, Booking.time, Booking.price, Attraction.name, Attraction.address, Attraction.images)\
+                .filter(Booking.order_number == orderNumber)\
+                .all()
+
             # 分別取得該order的booking資訊
             for booking in bookings:
-        
-                booking_dict = dict(zip(cursor.column_names, booking))
+                booking = booking._asdict()
                 booking_data = {
-                    "id": booking_dict["id"],
+                    "id": booking["id"],
                     "attraction": {
-                        "id": booking_dict["attraction_id"],
-                        "name": booking_dict["name"],
-                        "address": booking_dict["address"],
-                        "image": json.loads(booking_dict["images"])[0]
+                        "id": booking["attraction_id"],
+                        "name": booking["name"],
+                        "address": booking["address"],
+                        "image": booking["images"][0]
                     },
-                    "date": booking_dict["date"].strftime("%Y-%m-%d"),
-                    "time": booking_dict["time"]
+                    "date": booking["date"].strftime("%Y-%m-%d"),
+                    "time": booking["time"]
                 }
                 # 將行程加入list
                 booking_list.append(booking_data)
@@ -164,10 +170,8 @@ def get_order(orderNumber):
 
 @appOrder.route('/order', methods=["POST"])
 def post_order():
-    try:
-        db.reconnect(attempts=1, delay=0)
+    # try:
         if "user" in session:
-            user_id = session["user"]["id"]
             # 整理訂購資訊
             order = request.json
             prime = order["prime"]
@@ -181,7 +185,7 @@ def post_order():
 
             # 從資料庫確認訂購行程的總價格
             for trip in trip_list:
-                booking = db_select("booking", id=trip["id"])
+                booking = Booking.query.filter_by(id=trip["id"]).first().as_dict()
                 total_price += booking["price"]
             
             # 沒有輸入內容、使用者更動總價格等輸入不正確的狀況
@@ -215,18 +219,21 @@ def post_order():
             }
             response = requests.post(pay_url, data=send_prime, headers=headers)
             res = response.json()
+            order_number=res["rec_trade_id"]
 
             # 當回傳結果為付款成功時，回傳建立成功資訊
             if res["status"] == 0:
                 for trip in trip_list:
                     # 建立變數
                     booking_id = trip["id"]
-                    order_number=res["rec_trade_id"]
 
                     # 更動資料庫
-                    sql = f'UPDATE booking SET order_number="{order_number}" WHERE id={booking_id}'
-                    cursor.execute(sql)
-                    db.commit()
+                    # sql = f'UPDATE booking SET order_number="{order_number}" WHERE id={booking_id}'
+                    # cursor.execute(sql)
+                    # db.commit()
+                    update_booking = Booking.query.filter_by(id=booking_id).first()
+                    update_booking.order_number = order_number
+                    db.session.commit()
                 data = {
                     "data":{
                         "number": order_number,
@@ -258,12 +265,12 @@ def post_order():
         return jsonify(data), 403
 
     # 伺服器（資料庫）連線失敗
-    except:
-        data = {
-            "error": True,
-            "message": "伺服器內部錯誤"
-        }
-        return jsonify(data), 500
+    # except:
+    #     data = {
+    #         "error": True,
+    #         "message": "伺服器內部錯誤"
+    #     }
+    #     return jsonify(data), 500
 
 @appOrder.route('/order', methods=["DELETE"])
 def delete_order():
@@ -274,12 +281,9 @@ def delete_order():
 
             # 如果有任一行程三天內要出發，則不給退款
             three_days_later = date.today() + timedelta(days=3)
-            cursor = db.cursor(dictionary=True)
-            sql = f'SELECT date FROM booking WHERE order_number="{order_number}"'
-            cursor.execute(sql)
-            bookings = cursor.fetchall()
+            bookings = Booking.query.filter_by(order_number=order_number).all()
             for booking in bookings:
-                if booking["date"] < three_days_later:
+                if booking.date < three_days_later:
                     data = {
                         "error": True,
                         "message": "有行程超過退款期限囉，無法進行退款"
@@ -301,9 +305,10 @@ def delete_order():
 
             # 若回傳退款成功資訊，更動資料庫內容，回傳成功退款訊息
             if res["status"] == 0:
-                sql = f'UPDATE booking SET refund=true WHERE order_number="{order_number}"'
-                cursor.execute(sql)
-                db.commit()
+                update_bookings = Booking.query.filter_by(order_number=order_number).all()
+                for booking in update_bookings:
+                    booking.refund = True
+                    db.session.commit()
                 data = {
                     "ok": True,
                     "message": "退款成功！"

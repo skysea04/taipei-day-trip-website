@@ -15,7 +15,7 @@ function getUserData(){
             inputName.value = data.data.name
             inputEmail.value = data.data.email
         }else{
-            headLine.innerText = `您尚未登入，請登入`
+            window.location.href='/';
         }
     })
 }
