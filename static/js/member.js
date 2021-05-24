@@ -50,7 +50,7 @@ const fetchOrderAPI = async () => {
                     const timeLabel = document.createElement('label')
                     timeLabel.innerText = '時間：'
                     const timeSpan = document.createElement('span')
-                    timeSpan.innerText = booking.time
+                    timeSpan.innerText = (booking.time == 'morning')? '早上 9 點到下午 4 點': '下午 2 點到晚上 9 點'
                     timeContain.append(timeLabel, timeSpan)
                     
                     // price 資訊

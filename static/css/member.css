@@ -95,10 +95,6 @@ main{
     margin-right: 40px;
 }
 
-.booking-container>div>div:last-child{
-    margin-right: 0;
-}
-
 .pay-info{
     width: 980px;
     margin: 0 auto;

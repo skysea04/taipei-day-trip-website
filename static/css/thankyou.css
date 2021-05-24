@@ -1,0 +1,15 @@
+.itinerary>img{
+    height: 170px;
+}
+.itinerary>.info{
+    height: 150px;
+}
+
+form.order{
+    padding-bottom: 40px;
+}
+
+.order-number{
+    font-weight: bold;
+    margin-bottom: 15px;
+}

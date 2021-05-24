@@ -40,6 +40,8 @@ class Booking(db.Model):
     time = db.Column(db.Enum('morning', 'afternoon'), nullable=False)
     price = db.Column(db.Integer, nullable=False)
     order_number = db.Column(db.String(255))
+    rec_trade_id = db.Column(db.String(255))
+    pay = db.Column(db.Boolean, default=False)
     refund = db.Column(db.Boolean, default=False)
 
     def as_dict(self):
