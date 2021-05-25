@@ -10,6 +10,15 @@ form.order{
 }
 
 .order-number{
+    width: 980px;
     font-weight: bold;
     margin-bottom: 15px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media(max-width:980px){
+    .order-number{
+        width: 100%;
+    }
 }
