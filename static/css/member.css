@@ -1,8 +1,17 @@
-h3, h4, p, span, label, i{
+h3, h4, p, span, label, i, a{
     color: #666666;
     overflow: hidden;
     text-overflow : ellipsis;
     white-space: nowrap;
+}
+
+a{
+    text-decoration: none;
+    color: #448899;
+}
+a:hover{
+    color: #5ebdd4;
+
 }
 
 .seperator{
@@ -93,10 +102,6 @@ main{
     flex-wrap: nowrap;
     margin-bottom: 5px;
     margin-right: 40px;
-}
-
-.booking-container>div>div:last-child{
-    margin-right: 0;
 }
 
 .pay-info{

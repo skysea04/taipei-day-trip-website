@@ -25,6 +25,7 @@ getUserData()
 
 //抓booking api資料
 const bookingContainer = document.querySelector('.booking-container')
+const errorMessage = document.querySelector('.error-message')
 let totalPrice = 0
 let itineraryForms
 
@@ -88,7 +89,7 @@ function getBookingData(){
             const timeLabel = document.createElement('label')
             const timeSpan = document.createElement('span')
             timeLabel.innerText = '時間：'
-            timeSpan.innerText = booking.time
+            timeSpan.innerText = (booking.time == 'morning')? '早上 9 點到下午 4 點': '下午 2 點到晚上 9 點'
             timeContain.append(timeLabel, timeSpan)
 
             //price 資訊
@@ -182,16 +183,15 @@ function getBookingData(){
                 .then(data => {
                     if(data.data){
                         if(data.data.payment.status == 0){
-                            memberLink.click()
+                            window.location.replace(`/thankyou?number=${data.data.number}`)
                         }else{
-                            alert(data.data.payment.message)
+                            errorMessage.innerText =  data.data.payment.message
                         }
                     }else{
-                        alert(data.message)
+                        errorMessage.innerText = data.message
                     }
                 })
             })
-            
         }
         
         orderForm.addEventListener('submit', sendOrder)

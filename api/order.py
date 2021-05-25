@@ -3,9 +3,8 @@ import requests
 import copy
 import json
 import sys
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 sys.path.append("..")
-# from mysql_connect import cursor, db, db_insert, db_select
 from models import Attraction, Booking, db
 
 appOrder = Blueprint('appOrder', __name__)
@@ -21,7 +20,7 @@ def get_user_order():
                 .join(Attraction, Attraction.id==Booking.attraction_id)\
                 .add_columns(Booking.date, Booking.time, Booking.price, Booking.order_number, Booking.refund, Attraction.name, Attraction.address, Attraction.images)\
                 .filter(Booking.user_id == user_id)\
-                .filter(Booking.order_number.isnot(None))\
+                .filter(Booking.pay.is_(True))\
                 .order_by(Booking.id.desc())\
                 .all()
             
@@ -86,12 +85,11 @@ def get_user_order():
 def get_order(orderNumber):
     try:
         if "user" in session:
-
             # 向TapPay獲取訂單資料
             order_body = json.dumps({
                 "partner_key": 'partner_SwRrjaapkdWe1yKzV596Gr9HRTr9ymx9TossfP7XFooQ5t18nMlzhPFF',
                 "filters": {
-                    "rec_trade_id": orderNumber
+                    "order_number": orderNumber
                 }
             })
             record_url = 'https://sandbox.tappaysdk.com/tpc/transaction/query'
@@ -170,7 +168,7 @@ def get_order(orderNumber):
 
 @appOrder.route('/order', methods=["POST"])
 def post_order():
-    # try:
+    try:
         if "user" in session:
             # 整理訂購資訊
             order = request.json
@@ -180,8 +178,8 @@ def post_order():
             email = order["order"]["contact"]["email"]
             phone = order["order"]["contact"]["phone"]
             trip_list = order["order"]["trip"]
-
             total_price = 0
+            order_number = datetime.now().strftime('%Y%m%d%H%M%S%f')
 
             # 從資料庫確認訂購行程的總價格
             for trip in trip_list:
@@ -196,11 +194,21 @@ def post_order():
                 }
                 return jsonify(data), 400
             
+            
+            for trip in trip_list:
+                # 建立變數
+                booking_id = trip["id"]
+                # 新增order_number
+                update_booking = Booking.query.filter_by(id=booking_id).first()
+                update_booking.order_number = order_number
+                db.session.commit()
+            
             # 建立訂單
             send_prime = json.dumps({
                 "prime": prime,
                 "partner_key": "partner_SwRrjaapkdWe1yKzV596Gr9HRTr9ymx9TossfP7XFooQ5t18nMlzhPFF",
                 "merchant_id": "arcade0425_ESUN",
+                "order_number": order_number,
                 "details":"一日遊行程",
                 "amount": price,
                 "cardholder": {
@@ -219,21 +227,17 @@ def post_order():
             }
             response = requests.post(pay_url, data=send_prime, headers=headers)
             res = response.json()
-            order_number=res["rec_trade_id"]
+            rec_trade_id=res["rec_trade_id"]
+
+            orders = Booking.query.filter_by(order_number=order_number).all()
 
             # 當回傳結果為付款成功時，回傳建立成功資訊
             if res["status"] == 0:
-                for trip in trip_list:
-                    # 建立變數
-                    booking_id = trip["id"]
-
-                    # 更動資料庫
-                    # sql = f'UPDATE booking SET order_number="{order_number}" WHERE id={booking_id}'
-                    # cursor.execute(sql)
-                    # db.commit()
-                    update_booking = Booking.query.filter_by(id=booking_id).first()
-                    update_booking.order_number = order_number
+                for order in orders:
+                    order.rec_trade_id = rec_trade_id
+                    order.pay = True
                     db.session.commit()
+
                 data = {
                     "data":{
                         "number": order_number,
@@ -246,6 +250,9 @@ def post_order():
                 return jsonify(data)
 
             # TapPay回傳失敗資訊
+            for order in orders:
+                order.rec_trade_id = rec_trade_id
+                db.session.commit()
             data = {
                 "data":{
                     "number": order_number,
@@ -265,12 +272,12 @@ def post_order():
         return jsonify(data), 403
 
     # 伺服器（資料庫）連線失敗
-    # except:
-    #     data = {
-    #         "error": True,
-    #         "message": "伺服器內部錯誤"
-    #     }
-    #     return jsonify(data), 500
+    except:
+        data = {
+            "error": True,
+            "message": "伺服器內部錯誤"
+        }
+        return jsonify(data), 500
 
 @appOrder.route('/order', methods=["DELETE"])
 def delete_order():
@@ -278,11 +285,13 @@ def delete_order():
         if "user" in session:
             user_id = session["user"]["id"]
             order_number = request.json["orderNumber"]
+            # rec_trade_id = ''
 
             # 如果有任一行程三天內要出發，則不給退款
             three_days_later = date.today() + timedelta(days=3)
             bookings = Booking.query.filter_by(order_number=order_number).all()
             for booking in bookings:
+                rec_trade_id = booking.rec_trade_id
                 if booking.date < three_days_later:
                     data = {
                         "error": True,
@@ -293,7 +302,7 @@ def delete_order():
             # 將退款要求傳送至TapPay並獲取回應
             send_refund = json.dumps({
                 "partner_key": "partner_SwRrjaapkdWe1yKzV596Gr9HRTr9ymx9TossfP7XFooQ5t18nMlzhPFF",
-                "rec_trade_id": order_number
+                "rec_trade_id": rec_trade_id
             })
             refund_url = 'https://sandbox.tappaysdk.com/tpc/transaction/refund'
             headers = {

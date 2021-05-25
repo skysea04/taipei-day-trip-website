@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/css/nav.css">
+    <link rel="stylesheet" href="../static/css/booking.css">
+    <link rel="stylesheet" href="../static/css/thankyou.css">
+    <link rel="stylesheet" href="../static/css/footer.css">
+    <title>感謝您的預定</title>
+</head>
+<body>
+    <div class="white-space"></div>
+    <nav>
+        <div class="nav">
+            <a class="title" href="/">台北一日遊</a>
+            <button class="ham"><i class="fas fa-bars"></i></button>
+            <div class="nav-link">
+                <a href="/member" class="member-page">會員頁面</a>
+                <a href="/booking" class="booking-page">預定行程</a>
+                <div id="to-sign-btn" class="show">登入/註冊</div>
+                <div id="signout-btn">登出系統</div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="sign-bg">
+        <div class="sign-container show">
+            <div class="top-bar"></div>
+            <div class="main-content">
+                <form id="signin">
+                    <h3 class="form-title">登入會員帳號
+                        <div class="close-btn">✕</div>
+                    </h3>
+                    <div class="form-content">
+                        <input type="email" placeholder="輸入電子信箱" name="email" required>
+                        <input type="password" placeholder="輸入密碼" name="password" required>
+                        <button type="submit">登入帳戶</button>
+                    </div>
+                    <p class="message"></p>
+                    <p class="change-sign">還沒有帳戶？點此註冊</p>
+                </form>
+            </div>
+        </div>
+        
+        <div class="sign-container">
+            <div class="top-bar"></div>
+            <div class="main-content">
+                <form id="signup">
+                    <h3 class="form-title">註冊會員帳號
+                        <div class="close-btn">✕</div>
+                    </h3>
+                    <div class="form-content">
+                        <input type="text" placeholder="輸入姓名" name="name" required>
+                        <input type="email" placeholder="輸入電子信箱" name="email" required>
+                        <input type="password" placeholder="輸入密碼" name="password" required>
+                        <button type="submit">註冊帳戶</button>
+                    </div>
+                    <p class="message"></p>
+                    <p class="change-sign">已經有帳戶了？點此登入</p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <main>
+        <h3 class="headline"></h3>
+        <p class="order-number"></p>
+        <div class="booking-container">
+           
+        </div>
+        <form class="order show">
+            <div class="seperator"></div>
+            <div class="info">
+                <h3>您的訂購資訊</h3>
+                <div>
+                    <label for="name">聯絡姓名：</label>
+                    <span class="name"></span>
+                </div>
+                <div>
+                    <label for="email">連絡信箱：</label>
+                    <span class="email"></span>
+                </div>
+                <div>
+                    <label for="phone">手機號碼：</label>
+                    <span class="phone"></span>
+                </div>
+                <div>
+                    <label for="price">總共費用：</label>
+                    <span class="price"></span>
+                </div>
+                <p>請保持手機暢通，準時到達，導覽人員將用手機與您聯繫。</p>
+            </div>
+        </form>
+    </main>
+
+    <footer>
+        <p>COPYRIGHT © 2021 台北一日遊</p>
+    </footer>
+
+<script src="../static/js/sign.js"></script>
+<script src="../static/js/thankyou.js"></script>
+</body>
+</html>

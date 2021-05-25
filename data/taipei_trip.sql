@@ -27,6 +27,8 @@ CREATE TABLE booking(
     time ENUM("morning", "afternoon") NOT NULL,
     price INT NOT NULL,
     order_number VARCHAR(255),
+    rec_trade_id VARCHAR(255),
+    pay BOOLEAN DEFAULT false,
     refund BOOLEAN DEFAULT false,
     FOREIGN KEY(user_id)
         REFERENCES user(id)

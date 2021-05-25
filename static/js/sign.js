@@ -114,6 +114,7 @@ function signin(e){
             //頁面更新用
             try{ getUserData() }catch(e){}
             try{ getBookingData() }catch(e){}
+            try{ getOrderData() }catch(e){}
             try{ fetchOrderAPI() }catch(e){}
         }else{
             const message = this.querySelector('.message')
@@ -136,6 +137,7 @@ function signout(){
         //頁面更新用
         try{ getUserData() }catch(e){}
         try{ getBookingData() }catch(e){}
+        try{ getOrderData() }catch(e){}
         try{ fetchOrderAPI() }catch(e){}
     })
 }

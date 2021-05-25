@@ -44,6 +44,7 @@ main{
     width: 250px;
     height: 200px;
     object-fit: cover;
+    border-radius: 5px;
 }
 
 .itinerary>.info{
@@ -138,6 +139,10 @@ main{
 .confirm button:disabled{
     background: rgb(168, 168, 168);
     cursor: auto;
+}
+
+.error-message{
+    color: rgb(255, 30, 0);
 }
 
 @media (max-width:1200px){
