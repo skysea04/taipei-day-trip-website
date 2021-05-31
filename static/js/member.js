@@ -23,7 +23,8 @@ const fetchOrderAPI = async () => {
                 
                 // 建立訂單編號
                 const orderNumberContain = document.createElement('h4')
-                const orderNumber = document.createElement('span')
+                const orderNumber = document.createElement('a')
+                orderNumber.href = `thankyou?number=${order.orderNumber}`
                 orderNumber.innerText = order.orderNumber
                 orderNumberContain.innerText = '訂單編號：'
                 orderNumberContain.append(orderNumber)

@@ -1,12 +1,13 @@
 from flask import *
-import requests
-import copy
-import json
-import sys
+import requests, copy, json, sys, re
 from datetime import date, timedelta, datetime
 sys.path.append("..")
+import os
+from dotenv import load_dotenv
 from models import Attraction, Booking, db
 
+load_dotenv()
+partner_key = os.getenv("partner_key")
 appOrder = Blueprint('appOrder', __name__)
 
 @appOrder.route('/order', methods = ["GET"])
@@ -87,7 +88,7 @@ def get_order(orderNumber):
         if "user" in session:
             # 向TapPay獲取訂單資料
             order_body = json.dumps({
-                "partner_key": 'partner_SwRrjaapkdWe1yKzV596Gr9HRTr9ymx9TossfP7XFooQ5t18nMlzhPFF',
+                "partner_key": partner_key,
                 "filters": {
                     "order_number": orderNumber
                 }
@@ -95,7 +96,7 @@ def get_order(orderNumber):
             record_url = 'https://sandbox.tappaysdk.com/tpc/transaction/query'
             headers = {
                 'Content-type': 'application/json',
-                'x-api-key': 'partner_SwRrjaapkdWe1yKzV596Gr9HRTr9ymx9TossfP7XFooQ5t18nMlzhPFF'
+                'x-api-key': partner_key
             }
             response = requests.post(record_url, data=order_body, headers=headers)
             res = response.json()
@@ -187,7 +188,7 @@ def post_order():
                 total_price += booking["price"]
             
             # 沒有輸入內容、使用者更動總價格等輸入不正確的狀況
-            if (prime == None) or (price != total_price) or (name == None) or (email == None) or (phone == None):
+            if (prime == None) or (price != total_price) or (name == None) or (email == None) or  not bool(re.match(r"\A09[0-9]{8}\b", phone)):
                 data = {
                     "error": True,
                     "message": "訂單建立失敗，輸入不正確或其他原因"
@@ -206,7 +207,7 @@ def post_order():
             # 建立訂單
             send_prime = json.dumps({
                 "prime": prime,
-                "partner_key": "partner_SwRrjaapkdWe1yKzV596Gr9HRTr9ymx9TossfP7XFooQ5t18nMlzhPFF",
+                "partner_key": partner_key,
                 "merchant_id": "arcade0425_ESUN",
                 "order_number": order_number,
                 "details":"一日遊行程",
@@ -223,7 +224,7 @@ def post_order():
             pay_url = 'https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime'
             headers = {
                 'Content-type': 'application/json',
-                'x-api-key': 'partner_SwRrjaapkdWe1yKzV596Gr9HRTr9ymx9TossfP7XFooQ5t18nMlzhPFF'
+                'x-api-key': partner_key
             }
             response = requests.post(pay_url, data=send_prime, headers=headers)
             res = response.json()
@@ -301,13 +302,13 @@ def delete_order():
 
             # 將退款要求傳送至TapPay並獲取回應
             send_refund = json.dumps({
-                "partner_key": "partner_SwRrjaapkdWe1yKzV596Gr9HRTr9ymx9TossfP7XFooQ5t18nMlzhPFF",
+                "partner_key": partner_key,
                 "rec_trade_id": rec_trade_id
             })
             refund_url = 'https://sandbox.tappaysdk.com/tpc/transaction/refund'
             headers = {
                 'Content-type': 'application/json',
-                'x-api-key': 'partner_SwRrjaapkdWe1yKzV596Gr9HRTr9ymx9TossfP7XFooQ5t18nMlzhPFF'
+                'x-api-key': partner_key
             }
             response = requests.post(refund_url, data=send_refund, headers=headers)
             res = response.json()

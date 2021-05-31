@@ -135,6 +135,24 @@ fetchAttraction()
 
 // booking 行程訂購功能
 const bookingForm = bookingInfo.querySelector('.booking-form')
+const bookingDateInput = bookingForm.querySelector('input[name="date"]')
+Date.prototype.addDays = function(days) {
+    this.setDate(this.getDate() + days)
+    return this
+}
+let minDate = new Date()
+minDate.addDays(3)
+let dd = minDate.getDate()
+let mm = minDate.getMonth()+1 //1月是0!
+let yyyy = minDate.getFullYear()
+if(dd < 10){
+    dd = '0' + dd
+}
+if(mm < 10){
+    mm = '0' + mm
+}
+minDate = yyyy + '-' + mm + '-' + dd
+bookingDateInput.setAttribute('min', minDate)
 
 function bookingItinerary(e){
     e.preventDefault()
