@@ -10,8 +10,8 @@ form.order{
 }
 
 .order-number{
+    width: 980px;
     font-weight: bold;
-    /* margin-bottom: 15px; */
     margin: 0 auto 15px;
     width: 980px;
 }
