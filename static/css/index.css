@@ -139,6 +139,15 @@ main .attraction{
     color: #757575;
 }
 
+.loading{
+    display: block;
+    width: 200px;
+    margin: 0 auto;
+}
+.stop-loading{
+    display: none;
+}
+
 
 @media (max-width:1200px){
     .slogan{

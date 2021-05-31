@@ -1,6 +1,7 @@
 // fetch 景點api
 const searchForm = document.querySelector('.slogan form')
 const main = document.querySelector('main')
+const loadingGIF = document.querySelector('.loading')
 const footer = document.querySelector('footer')
 let page = 0
 let keyword = ''
@@ -58,12 +59,18 @@ const fetchAttractions = async () => {
     }
 
     page = data['nextPage']
+    if(page == null){
+        loadingGIF.classList.add('stop-loading')
+    }else{
+        loadingGIF.classList.remove('stop-loading')
+    }
     //當main沒有加入任何值時（沒有任何景點），加入提示字樣
     if(main.innerHTML === ''){
         const noResult = document.createElement('h3')
         noResult.innerText = `找不到符合「${keyword}」的景點`
         noResult.style.color = '#666666'
         main.append(noResult)
+        loadingGIF.classList.add('stop-loading')
     }
     isFetching = false
 }
