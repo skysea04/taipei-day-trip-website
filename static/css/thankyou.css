@@ -12,13 +12,11 @@ form.order{
 .order-number{
     width: 980px;
     font-weight: bold;
-    margin-bottom: 15px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto 15px;
 }
 
-@media(max-width:980px){
-    .order-number{
+@media (max-width: 980px){
+    .order-number {
         width: 100%;
     }
 }

@@ -30,7 +30,7 @@ def api_attractions():
 			if request.args.get('keyword'):
 				keyword =request.args.get('keyword')
 				attraction_list = select_attraction(first_index, keyword)
-				next_page_list = select_attraction(first_index, keyword)
+				next_page_list = select_attraction(first_index+12, keyword)
 				#如果下一頁的陣列是空值，代表本次的搜尋是最後一頁，next_page返回null
 				if len(next_page_list) == 0:
 					next_page = None

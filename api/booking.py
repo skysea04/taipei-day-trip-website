@@ -1,5 +1,6 @@
 from flask import *
 import sys
+from datetime import datetime, timedelta
 sys.path.append("..")
 from models import Attraction, Booking, db
 
@@ -63,7 +64,7 @@ def post_booking():
             date = booking["date"]
             time = booking["time"]
             price = booking["price"]
-            if attraction_id and date and ((time == 'morning' and price == 2000) or (time == 'afternoon' and price == 2500)):
+            if attraction_id and (datetime.strptime(date, "%Y-%m-%d") > datetime.today() + timedelta(days=2)) and ((time == 'morning' and price == 2000) or (time == 'afternoon' and price == 2500)):
                 # 建立行程成功
                 new_booking = Booking(user_id=user_id, attraction_id=attraction_id, date=date, time=time, price=price)
                 db.session.add(new_booking)
