@@ -9,7 +9,7 @@ Test User : test1@test.com</br>
 Password : 123
 
 Credit Card : 4242-4242-4242-4242</br>
-Credit Date : 01/23</br>
+Date : 01/23</br>
 CVV : 123
 
 亦可在註冊欄位建立自己的帳號，即可使用網站功能
