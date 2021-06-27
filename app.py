@@ -6,12 +6,14 @@ from models import db
 load_dotenv()
 mysql_user = os.getenv("mysql_user")
 mysql_password = os.getenv("mysql_password")
+mysql_host = os.getenv('mysql_host')
+mysql_database = os.getenv('mysql_database')
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
 app.config["SECRET_KEY"] = os.urandom(24).hex()
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{mysql_user}:{mysql_password}@localhost:3306/taipei_trip"
+app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{mysql_user}:{mysql_password}@{mysql_host}:3306/{mysql_database}"
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {"pool_pre_ping":True}
 
 db.init_app(app)
