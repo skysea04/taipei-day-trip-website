@@ -25,13 +25,9 @@ CVV : 123
 
 ### 首頁瀏覽
 
-* 滾輪往下滑，可以閱覽所有景點資訊(1次重新列出12筆新景點)
+* 滾輪往下滑，可以閱覽所有景點資訊(1次重新列出12筆新景點)，也可以透過關鍵字搜尋景點標題
 
   ![image](https://user-images.githubusercontent.com/73434165/121943692-6ba0a780-cd84-11eb-8f04-32423d8a6c28.png)
-
-* 透過搜尋欄未進行關鍵字搜尋，可以找尋名稱包含關鍵字的景點
-
-  ![image](https://user-images.githubusercontent.com/73434165/121943749-79eec380-cd84-11eb-9e65-31da6de4e51f.png)
 
 ### 帳號管理
 
@@ -43,14 +39,9 @@ CVV : 123
 
   ![image](https://user-images.githubusercontent.com/73434165/121942891-93434000-cd83-11eb-9651-d4cfcf452185.png)
 
-  ![image](https://user-images.githubusercontent.com/73434165/121942988-b1a93b80-cd83-11eb-9fc3-636eeedf3be3.png)
-
-  ![image](https://user-images.githubusercontent.com/73434165/121943134-d9989f00-cd83-11eb-9594-8c010f54e024.png)
-
 * 使用者可以在會員系統查看過去的所有歷史訂單，並點選標題超連結進入各個訂購分頁，以及在會員系統進行退款
 
   ![image](https://user-images.githubusercontent.com/73434165/121943303-051b8980-cd84-11eb-8c63-a664e4179354.png)
 
-  ![image](https://user-images.githubusercontent.com/73434165/121943236-f634d700-cd83-11eb-8e33-de3cfeed586d.png)
 
 
