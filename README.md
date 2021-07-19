@@ -22,6 +22,7 @@ CVV : 123
 * 原生HTML+CSS完成RWD網頁
 * 使用index加速MySQL查詢效率
 * 結合TapPay SDK開發購物車系統
+* 專案建構於EC2
 * 申請SSL憑證實踐HTTPS
 
 ## 功能介紹
