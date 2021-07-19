@@ -18,11 +18,11 @@ CVV : 123
 亦可在註冊欄位建立自己的帳號使用網站功能
 
 ## 使用技術
-* Python Flask
-* MySQL
-* AWS EC2
-* TapPay
-* Responsive Web Design
+* RESTful API架構實踐專案功能
+* 原生HTML+CSS完成RWD網頁
+* 使用index加速MySQL查詢效率
+* 結合TapPay SDK開發購物車系統
+* 申請SSL憑證實踐HTTPS
 
 ## 功能介紹
 
